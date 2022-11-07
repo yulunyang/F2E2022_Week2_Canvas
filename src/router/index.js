@@ -1,17 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
-
+import HeaderSection from '@/components/modules/headerSection.vue'
 const routes = [
   {
     path: '/',
-    name: 'canvas_drawing',
-    component: () => import('../views/VueCanvasDrawing.vue')
+    name: 'home',
+    components: {
+      default: () => import('../views/HomeView.vue'),
+      nav: HeaderSection
+    }
+    // component: () => import('../views/HomeView.vue')
   },
-  // {
-  //   path: '/canvas_pdf',
-  //   name: 'canvas_pdf',
-  //   component: () => import('../views/pdfPage.vue')
-  // },
+  {
+    path: '/records',
+    name: 'records',
+    component: () => import('../views/Records.vue')
+  }
   // {
   //   path: '/',
   //   name: 'VueCanvasDrawing',

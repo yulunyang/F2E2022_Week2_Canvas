@@ -1,0 +1,37 @@
+// back-ground
+.proj-bg-primary {
+  background-color: #1C8B6A;
+}
+.proj-bg-black {
+  background-color: #434343;
+}
+// color
+.proj-text-primary {
+  color: #1C8B6A;
+}
+.proj-text-Gradient {
+  background: linear-gradient(180deg, #35A483 0%, #077854 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+.proj-text-black {
+  color: #434343;
+}
+.proj-text-gray {
+  color: #B7B7B7;
+}
+// border
+.proj-border-primary {
+  border-color: #1C8B6A;
+}
+.proj-border-black {
+  border-color: #434343;
+}
+
+.single-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
