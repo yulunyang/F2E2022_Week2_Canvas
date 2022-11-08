@@ -1,6 +1,7 @@
 <template>
   <div class='home p-0 m-o'>
-    <LoadingModule v-if="isLoading" />
+    <LoadingUploadModule v-if="isLoading" />
+    <LoadingSignModule v-if="isLoadingSign" />
     <!-- <ChackLeaving v-if="isLeaving" /> -->
     <WarningAlert v-if="isWarning" :isWarningText="isWarningText" @closeWarning="closeWarning" />
 
@@ -14,7 +15,8 @@
 <script>
 /* eslint-disable */
 
-import LoadingModule from '@/components/modules/LoadingModule.vue'
+import LoadingUploadModule from '@/components/modules/LoadingUploadModule.vue'
+import LoadingSignModule from '@/components/modules/LoadingSignModule.vue'
 // import ChackLeaving from '@/components/modules/warningAlert.vue'
 import WarningAlert from '@/components/modules/warningAlert.vue'
 import Upload from '@/components/Upload.vue'
@@ -27,7 +29,8 @@ import { onMounted, ref } from 'vue'
 export default {
   name: 'HomeView',
   components: {
-    LoadingModule,
+    LoadingUploadModule,
+    LoadingSignModule,
     Sign,
     Upload,
     pdfShow,
@@ -37,6 +40,7 @@ export default {
   },
   setup () {
     const isLoading = ref(false)
+    const isLoadingSign = ref(false)
     const isLeaving = ref(false)
     const isWarning = ref(false)
     const downloadStatus = ref(true)
@@ -68,10 +72,10 @@ export default {
     }
 
     const setStep2 = () => {
-      isLoading.value = true
+      isLoadingSign.value = true
 
       const timeout = setTimeout(() => {
-        isLoading.value = false
+        isLoadingSign.value = false
         step.value = 2
       }, 2000)
       clearTimeout(timeout.value)
@@ -89,6 +93,7 @@ export default {
     }
     return {
       isLoading,
+      isLoadingSign,
       step,
       isLeaving,
       isWarning,

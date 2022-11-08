@@ -46,9 +46,11 @@
 <script>
 /* eslint-disable */
 import { onMounted } from 'vue'
+import { useStore } from "vuex"
 export default {
   name: 'upload',
   setup (props, ctx) {
+    const store = useStore()
     onMounted(() => {
     })
     const checkFile = (e) => {
@@ -56,7 +58,11 @@ export default {
 
       if (e.target.files[0].type.indexOf('pdf') > 0) {
         if (fileSize < 10) {
-          localStorage.setItem('temporaryFile', e.target.value)
+          store.dispatch('setFILE', e.target.files[0])
+          console.log(e.target.files[0])
+          console.log(JSON.stringify(e.target.files[0]))
+          // localStorage.setItem('temporaryFile', JSON.stringify(e.target.files[0]))
+
           ctx.emit('nextStep')
 
           e.target.value = ''
@@ -70,7 +76,8 @@ export default {
     }
 
     return {
-      checkFile
+      checkFile,
+      store
     }
   }
 }
