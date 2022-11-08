@@ -35,7 +35,6 @@ export default {
     })
 
     const setStep = (setStep) => {
-      console.log(setStep)
       ctx.emit('setStep2')
     }
 

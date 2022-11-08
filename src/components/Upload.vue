@@ -58,6 +58,8 @@ export default {
         if (fileSize < 10) {
           localStorage.setItem('temporaryFile', e.target.value)
           ctx.emit('nextStep')
+
+          e.target.value = ''
         } else {
           ctx.emit('showWarning', '檔案超過10MB，請重新選擇')
         }
