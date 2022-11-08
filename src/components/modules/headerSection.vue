@@ -7,7 +7,7 @@
           <router-link :to="{ name: 'home' }" class="block px-3 cursor-pointer "><img src="@/assets/img/logo.png" alt="" class="object-contain block"></router-link>
         </div>
         <div class="flex items-center">
-          <a href="" class="pt-2 lg:py-2 px-5 inline-block items-center justify-center button cursor-pointer rounded-xl border-2">歷史記錄</a>
+          <router-link :to="{ name: 'records' }" class="pt-2 lg:py-2 px-5 inline-block items-center justify-center button cursor-pointer rounded-xl border-2">歷史記錄</router-link>
         </div>
       </div>
     </div>

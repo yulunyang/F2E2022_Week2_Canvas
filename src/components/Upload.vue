@@ -19,7 +19,7 @@
           <!-- <button class="upload_file_btn mb-4 text-white px-16 py-4">選擇檔案</button> -->
           <div class="file-upload cursor-pointer">
             <label for="upload" class="file-upload__label mb-4 px-16 py-4 cursor-pointer" accept="application/pdf">選擇檔案</label>
-            <input id="upload" class="file-upload__input" type="file" name="file-upload">
+            <input id="upload" class="file-upload__input" type="file" name="file-upload" @change="checkFile($event)" >
           </div>
           <p class="drap mb-4">或拖移檔案到此處</p>
           <p class="text-sm note">(限10MB 內的PDF或JPG檔)</p>
@@ -48,18 +48,33 @@
 import { onMounted } from 'vue'
 export default {
   name: 'upload',
-  setup () {
+  setup (props, ctx) {
     onMounted(() => {
     })
+    const checkFile = (e) => {
+      const fileSize = e.target.files[0].size / 1024 / 1024
+
+      if (e.target.files[0].type.indexOf('pdf') > 0) {
+        if (fileSize < 10) {
+          localStorage.setItem('temporaryFile', e.target.value)
+          ctx.emit('nextStep')
+        } else {
+          ctx.emit('showWarning', '檔案超過10MB，請重新選擇')
+        }
+      } else {
+        ctx.emit('showWarning', '檔案格式錯誤，請重新選擇')
+      }
+
+    }
 
     return {
+      checkFile
     }
   }
 }
 </script>
 <style scoped lang="scss">
 .leafBg {
-  
   background-image: url('@/assets/img/leaf1.png'), url('@/assets/img/leaf2.png');
   background-position: left bottom, right top;
   background-repeat: no-repeat;

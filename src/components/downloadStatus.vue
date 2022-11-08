@@ -1,8 +1,8 @@
 <template>
   <div class="loading w-full h-screen left-0 top-0 z-50">
-    <div class="py-4 px-6 md:px-28 lg:px-8 hidden xl:block">
+    <!-- <div class="py-4 px-6 md:px-28 lg:px-8 hidden xl:block">
       <img src="@/assets/img/logo.png" alt="" class="object-contain block">
-    </div>
+    </div> -->
     <div class="loading-text absolute text-xl">
       <div v-if="isSuccess">
         <img src="@/assets/img/success.png" alt="" class="object-contain block mb-5 mx-auto">
@@ -13,29 +13,38 @@
         <p class="typing-loading text-center font-semibold text-xl xl:text-2xl proj-text-black whitespace-nowrap">下載失敗，請稍後再試</p>
       </div>
       <!-- <button type="button" class=" py-4 px-28 proj-bg-Gradient text-white rounded-2xl h-auto mt-20">回首頁</button> -->
-      <router-link :to="{ name: 'home' }" class="py-4 px-28 proj-bg-Gradient text-white rounded-2xl h-auto mt-20 hidden xl:inline-block">回首頁</router-link>
+      <a class="py-4 px-28 proj-bg-Gradient text-white rounded-2xl h-auto mt-20 hidden xl:inline-block cursor-pointer" @click="backIndex">回首頁</a>
     </div>
 
     <div class="absolute bottom-5 xl:hidden left-1/2 -translate-x-1/2">
-      <router-link :to="{ name: 'home' }" class="py-4 px-28 proj-bg-Gradient text-white rounded-2xl h-auto inline-block whitespace-nowrap">回首頁</router-link>
+      <a class="py-4 px-28 proj-bg-Gradient text-white rounded-2xl h-auto inline-block whitespace-nowrap cursor-pointer" @click="backIndex">回首頁</a>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 export default {
   components: {
   },
-  setup () {
-    const isSuccess = ref(false)
+  props: {
+    isSuccess: {
+      type: Boolean,
+      default: true
+    }
+  },
+  setup (props, ctx) {
+    // const isSuccess = ref(false)
     onMounted(() => {
       })
     onUnmounted(() => {
     })
-
+    const backIndex = () => {
+      ctx.emit('backIndex')
+    }
     return {
-      isSuccess
+      backIndex
+      // isSuccess
     }
   }
 }

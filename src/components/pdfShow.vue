@@ -17,28 +17,17 @@
           </div>
       </div>
       <div class="w-3/12 md:p-2 flex justify-center items-center">
-        <button type="button" class="py-4 w-full proj-bg-Gradient text-white rounded-xl proj-border-primary border-2 h-auto">
+        <button type="button" class="py-4 w-full proj-bg-Gradient text-white rounded-xl proj-border-primary border-2 h-auto" @click="finishSign">
           完成簽署
         </button>
       </div>
     </div>
-
-    <!-- <div class="index_Sign flex-col items-center w-full mt-20 relative inline-flex overflow-y-hidden px-36 py-24">
-      <div class="w-full h-full overflow-auto -mt-6 -mb-6 flex flex-col items-center">
-        <div class="react-pdf__Document">
-          <div class="cFGXRm canvas-container relative max-w-full">
-            <canvas id='canvas' class="h-auto block select-none max-w-full"></canvas>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="styledCreate__WrapperRight-sc-1i4fuzv-10 cKAFxH">
       <div id="viewer" tabindex="10" scale="1" class="styled__Wrapper-sc-cpx59f-1 gKmbon">
         <div class="react-pdf__Document">
           <div id="pageContainer1" class="styled__WrapperPage-sc-cpx59f-2 cFGXRm page" width="1101.6000000000001" height="1425.6000000000001" style="">
           <div class="react-pdf__Page" data-page-number="1" style="position: relative;">
             <canvas class="react-pdf__Page__canvas block select-none" dir="ltr" width="2203" height="2851"></canvas>
-            <!-- style="width: 1101px;height: 1425px;" -->
           </div>
             <div id="holder-DottedSign_5ca4e6e0-5f1b-11ed-aba8-617d5b381a48" class="styled__Wrapper-sc-v2t1xh-0 evylNs assign-fields" tabindex="57" style="position: absolute; left: 785.797px; top: 606px; width: 217px; height: 110px;">
               <div class="styled__WrapperContent-sc-v2t1xh-1 hSSgBH">
@@ -114,7 +103,7 @@
             </a>
           </div>
           <div class="w-2/12 hidden xl:flex justify-center items-center bg-white">
-            <button type="button" class="py-4 px-16 proj-bg-Gradient text-white rounded-xl proj-border-primary border-2 h-auto">
+            <button type="button" class="py-4 px-16 proj-bg-Gradient text-white rounded-xl proj-border-primary border-2 h-auto" @click="finishSign">
               完成簽署
             </button>
           </div>
@@ -132,11 +121,17 @@ export default {
   name: 'Sign',
   components: {
   },
-  setup () {
+  setup (props, ctx) {
     onMounted(() => {
     })
 
+    // @click="finishSign"
+    const finishSign = () => {
+      ctx.emit('finishSign', true)
+    }
+
     return {
+      finishSign
     }
   }
 }
@@ -144,9 +139,6 @@ export default {
 <style scoped lang="scss">
 .pdfShow {
   background: #F0F0F0;
-  // .canvas-container {
-  //   height: 1101px;
-  // }
   .react-pdf__Document {
     transform-origin: center top;
     transform: translate3d(0px, 0px, 0px) scale3d(0.883261, 0.883261, 1);

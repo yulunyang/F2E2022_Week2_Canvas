@@ -15,9 +15,7 @@
         <a href="" class="h-8 w-8 rounded-full inline-block bg-red-700 m-2"></a>
       </div> -->
 
-      <CanvasModule />
-
-
+      <CanvasModule v-on:setStep="setStep" />
 
     </div>
   </div>
@@ -26,17 +24,23 @@
 <script>
 /* eslint-disable */
 import { onMounted } from 'vue'
-import CanvasModule from '@/components/test/CanvasModule.vue'
+import CanvasModule from '@/components/modules/CanvasModule.vue'
 export default {
   name: 'Sign',
   components: {
     CanvasModule
   },
-  setup () {
+  setup (props, ctx) {
     onMounted(() => {
     })
 
+    const setStep = (setStep) => {
+      console.log(setStep)
+      ctx.emit('setStep2')
+    }
+
     return {
+      setStep
     }
   }
 }

@@ -4,7 +4,7 @@
       <input type='file' accept='application/pdf' placeholder='選擇PDF檔案' />
     </div>
 
-    <canvas id='canvas' style='border: 1px solid #000'> </canvas>
+    <canvas id='canvas' style='border: 1px solid #000'></canvas>
 
     <p>選擇簽名</p>
     <img class='sign' style='border: 1px solid #000' width='250' height='150' />

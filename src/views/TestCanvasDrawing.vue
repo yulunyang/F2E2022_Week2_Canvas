@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import CanvasModule from "@/components/CanvasModule.vue"
-import Fabric from "@/components/Fabric.vue"
+import CanvasModule from "@/components/test/CanvasModule.vue"
+import Fabric from "@/components/test/Fabric.vue"
 
 export default {
   name: "ServeDev",

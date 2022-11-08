@@ -1,11 +1,13 @@
 <template>
   <div class='home p-0 m-o'>
     <LoadingModule v-if="isLoading" />
-    <Upload v-show="step === 0" />
-    <Sign v-show="step === 1" />
-    <pdfShow v-show="step === 2" />
+    <!-- <ChackLeaving v-if="isLeaving" /> -->
+    <WarningAlert v-if="isWarning" :isWarningText="isWarningText" @closeWarning="closeWarning" />
 
-    <DownloadStatus v-show="step === 3" />
+    <Upload v-show="step === 0" @nextStep="nextStep" @showWarning="isFileOverAlert"  />
+    <Sign v-show="step === 1" @setStep2="setStep2" />
+    <pdfShow v-show="step === 2" @finishSign="finishSign" />
+    <DownloadStatus v-show="step === 3" :isSuccess="downloadStatus" @backIndex="backIndex" />
   </div>
 </template>
 
@@ -13,11 +15,15 @@
 /* eslint-disable */
 
 import LoadingModule from '@/components/modules/LoadingModule.vue'
+// import ChackLeaving from '@/components/modules/warningAlert.vue'
+import WarningAlert from '@/components/modules/warningAlert.vue'
 import Upload from '@/components/Upload.vue'
 import Sign from '@/components/Sign.vue'
 import pdfShow from '@/components/pdfShow.vue'
 import DownloadStatus from '@/components/downloadStatus.vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import { onMounted, ref } from 'vue'
+
 export default {
   name: 'HomeView',
   components: {
@@ -25,16 +31,76 @@ export default {
     Sign,
     Upload,
     pdfShow,
-    DownloadStatus
+    DownloadStatus,
+    // ChackLeaving,
+    WarningAlert
   },
   setup () {
     const isLoading = ref(false)
-    const step = ref(2)
+    const isLeaving = ref(false)
+    const isWarning = ref(false)
+    const downloadStatus = ref(true)
+    const isWarningText = ref('')
+    const step = ref(0)
+    const timer = ref(null)
     onMounted(() => {
     })
+    onBeforeRouteLeave((to, from) => {
+      const answer = window.confirm(
+        'Do you really want to leave? you have unsaved changes!'
+      )
+      if (!answer) return false
+    })
+
+    const isFileOverAlert = (isFileOverAlert) => {
+      isWarning.value = true
+      isWarningText.value = isFileOverAlert
+    }
+
+    const nextStep = () => {
+      isLoading.value = true
+
+      const timeout = setTimeout(() => {
+        isLoading.value = false
+        step.value = 1
+      }, 2000)
+      clearTimeout(timeout.value)
+    }
+
+    const setStep2 = () => {
+      isLoading.value = true
+
+      const timeout = setTimeout(() => {
+        isLoading.value = false
+        step.value = 2
+      }, 2000)
+      clearTimeout(timeout.value)
+    }
+    const finishSign = () => {
+      step.value = 3
+    }
+    const closeWarning = (closeWarning) => {
+      isWarning.value = false
+      downloadStatus.value = closeWarning
+    }
+
+    const backIndex = () => {
+      step.value = 0
+    }
     return {
       isLoading,
-      step
+      step,
+      isLeaving,
+      isWarning,
+      isFileOverAlert,
+      isWarningText,
+      timer,
+      nextStep,
+      setStep2,
+      closeWarning,
+      finishSign,
+      downloadStatus,
+      backIndex
     }
   }
 }

@@ -16,10 +16,12 @@ const routes = [
     name: 'records',
     component: () => import('../views/Records.vue')
   },
+
+  // test
   {
     path: '/VueCanvasDrawing',
     name: 'VueCanvasDrawing',
-    component: () => import('../views/VueCanvasDrawing.vue')
+    component: () => import('../views/TestCanvasDrawing.vue')
   }
 ]
 
@@ -28,4 +30,7 @@ const router = createRouter({
   routes
 })
 
+// router.beforeEach ((to, from) => {
+//   console.log(to, from)
+// })
 export default router

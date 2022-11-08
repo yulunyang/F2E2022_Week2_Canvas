@@ -1,14 +1,17 @@
 <template>
-  <!-- <router-view name="nav"></router-view> -->
+  <router-view name="nav"></router-view>
   <router-view />
 </template>
 <script>
-
+import { onMounted } from 'vue'
 export default({
   components: {
   },
   setup() {
-  },
+
+    onMounted(() => {
+    })
+  }
 })
 </script>
 
