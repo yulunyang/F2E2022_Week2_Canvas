@@ -1,5 +1,5 @@
 <template>
-  <div class="loading w-full h-screen fixed left-0 top-0">
+  <div class="loading w-full h-screen left-0 top-0">
     <div class="loading-text absolute text-xl">
       <img src="@/assets/img/loading.png" class="car object-contain mx-auto mb-4" />
       <p class="typing-loading">尚無任何記錄</p>

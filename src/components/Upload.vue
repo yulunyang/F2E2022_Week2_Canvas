@@ -16,7 +16,11 @@
       <div class="right w-full lg:w-1/2 p-4 py-8 h-full flex justify-center lg:inline">
         <div class="bg-white upload_range flex flex-col items-center h-4/5 pt-10 w-full">
           <img src="@/assets/img/pdf.png" class="object-contain mx-auto mb-4" />
-          <button class="upload_file_btn mb-4 text-white px-16 py-4">選擇檔案</button>
+          <!-- <button class="upload_file_btn mb-4 text-white px-16 py-4">選擇檔案</button> -->
+          <div class="file-upload cursor-pointer">
+            <label for="upload" class="file-upload__label mb-4 px-16 py-4 cursor-pointer" accept="application/pdf">選擇檔案</label>
+            <input id="upload" class="file-upload__input" type="file" name="file-upload">
+          </div>
           <p class="drap mb-4">或拖移檔案到此處</p>
           <p class="text-sm note">(限10MB 內的PDF或JPG檔)</p>
         </div>
@@ -104,8 +108,6 @@ export default {
     }
     .upload_file_btn {
       background: linear-gradient(180deg, #35A483 0%, #077854 100%);
-      /* shadow */
-
       box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.11);
       border-radius: 16px;
     }
@@ -228,5 +230,32 @@ export default {
       }
     }
   }
+}
+
+.file-upload {
+	position: relative;
+	display: inline-block;
+}
+
+.file-upload__label {
+  display: block;
+  padding: 1em 2em;
+  color: #fff;
+  background: linear-gradient(180deg, #35A483 0%, #077854 100%);
+  box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.11);
+  border-radius: 16px;
+  border-radius: .4em;
+}
+
+.file-upload__input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 1;
+    width:0;
+    height: 100%;
+    opacity: 0;
 }
 </style>

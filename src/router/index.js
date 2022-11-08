@@ -15,12 +15,12 @@ const routes = [
     path: '/records',
     name: 'records',
     component: () => import('../views/Records.vue')
+  },
+  {
+    path: '/VueCanvasDrawing',
+    name: 'VueCanvasDrawing',
+    component: () => import('../views/VueCanvasDrawing.vue')
   }
-  // {
-  //   path: '/',
-  //   name: 'VueCanvasDrawing',
-  //   component: () => import('../views/VueCanvasDrawing.vue')
-  // }
 ]
 
 const router = createRouter({

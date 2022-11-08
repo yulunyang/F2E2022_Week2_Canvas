@@ -1,7 +1,11 @@
 <template>
-  <div class="flex">
+  <div class="flex flex-col items-center">
+    <div class="flex mb-4">
+      <a href="" class="h-8 w-8 rounded-full inline-block bg-black m-2"></a>
+      <a href="" class="h-8 w-8 rounded-full inline-block bg-blue-700 m-2"></a>
+      <a href="" class="h-8 w-8 rounded-full inline-block bg-red-700 m-2"></a>
+    </div>
     <div class="source">
-      <p>Canvas:</p>
       <vue-drawing-canvas
         ref="VueCanvasDrawing"
         v-model:image="image"
@@ -20,7 +24,7 @@
         :initial-image="initialImage"
         saveAs="png"
         :styles="{
-          border: 'solid 1px #000',
+          'border-radius': '26px',
         }"
         :lock="disabled"
         :additional-images="additionalImages"
@@ -30,7 +34,7 @@
         x-axis: <strong>{{ x }}</strong
         >, y-axis: <strong>{{ y }}</strong>
       </p> -->
-      <div class="button-container">
+      <!-- <div class="button-container">
         <button type="button" @click.prevent="disabled = !disabled">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -217,14 +221,27 @@
             Stroke
           </span>
         </button>
-      </div>
-      <div class="button-container">
+      </div> -->
+      <!-- <div class="button-container">
         <button type="button" @click.prevent="getStrokes()" class="py-2 px-3 bg-gray-600 text-white">
           Save All Strokes
         </button>
         <button type="button" @click.prevent="removeSavedStrokes()" class="py-2 px-3 bg-gray-300 text-white">
           Remove Saved Strokes
         </button>
+      </div> -->
+      <div class="button-container w-full mt-10 flex">
+        <div class="w-1/2 p-2">
+          <button type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-full rounded-lg proj-border-primary border-2">
+            清除
+          </button>
+        </div>
+        <div class="w-1/2 p-2">
+          <button type="button" @click.prevent="getStrokes()" class="py-3 px-3 proj-bg-Gradient text-white w-full rounded-lg proj-border-primary border-2">
+            建立簽名
+          </button>
+        </div>
+
       </div>
       <!-- <div class="button-container">
         <div style="margin-right: 30px">
