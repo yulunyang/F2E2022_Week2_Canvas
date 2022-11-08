@@ -29,7 +29,7 @@ export default {
   },
   setup () {
     const isLoading = ref(false)
-    const step = ref(2)
+    const step = ref(0)
     onMounted(() => {
     })
     return {
