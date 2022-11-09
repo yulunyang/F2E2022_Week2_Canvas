@@ -1,5 +1,5 @@
 <template>
-  <div class="chackLeaving w-full h-screen left-0 top-0 z-50 fixed" @click="closeWarning">
+  <div class="warningAlert_pdf w-full h-screen left-0 top-0 fixed" @click="closeWarning">
     <div class="loading-text absolute text-xl">
       <div class="max-w-2xl rounded-3xl overflow-hidden shadow-lg bg-white w-full">
         <div class="px-12 py-6 flex flex-col justify-center">
@@ -19,12 +19,13 @@
 import { onMounted, onUnmounted } from 'vue'
 
 export default {
+  name: 'warningAlert_pdf',
   components: {
   },
   props: {
     isWarningText: {
       type: String,
-      default: '檔案超過10MB，請重新選擇'
+      default: '請置入簽名後再完成簽署'
     }
   },
   setup (props, ctx) {
@@ -46,9 +47,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.chackLeaving {
+.warningAlert_pdf {
   background: rgba(186, 186, 186, 0.47);
   backdrop-filter: blur(2.5px);
+  z-index: 10;
 }
 .loading-text {
   left: 50%;

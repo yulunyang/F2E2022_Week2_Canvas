@@ -6,8 +6,8 @@
         <div class="flex items-center">
           <router-link :to="{ name: 'home' }" class="block px-3 cursor-pointer "><img src="@/assets/img/logo.png" alt="" class="object-contain block"></router-link>
         </div>
-        <div class="flex items-center">
-          <router-link :to="{ name: 'records' }" class="pt-2 lg:py-2 px-5 inline-block items-center justify-center button cursor-pointer rounded-xl border-2">歷史記錄</router-link>
+        <div class="flex items-center" v-if="step === 0 || isLoading">
+          <router-link :to="{ name: 'records' }" class="pt-2 lg:py-2 px-5 inline-block items-center justify-center button cursor-pointer rounded-3xl border-2">歷史記錄</router-link>
         </div>
       </div>
     </div>
@@ -16,7 +16,16 @@
 <script>
 // import { ref } from 'vue'
 export default({
-  // const isShowBtn = ref(true)
+  props: {
+    step: {
+      type: Number,
+      default: 0
+    },
+    isLoading: {
+      type: Boolean,
+      default: true
+    }
+  },
   setup () {
   },
 })

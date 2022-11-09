@@ -57,69 +57,10 @@ export default {
   background: rgba(240, 240, 240, 0.58);
 }
 .index_Sign{
-  // background: rgba(255, 255, 255, 1);
-  // border-radius: 34px;
   height: 100%;
   max-height: 80%;
   max-width: 1040px;
-  // @media (max-width: 1023px) {
-  //   max-height: 100vh;
-  //   border-radius: 0;
-  // }
 }
-// .toggle_btns {
-
-// .btn{
-//     display: inline-block;
-//     padding: 10px;
-//     position: relative;
-//     text-align: center;
-//     transition: background 600ms ease, color 600ms ease;
-// }
-
-// input[type="radio"].toggle {
-//     display: none;
-//     & + label{
-//         cursor: pointer;
-//         min-width: 60px;
-//         &:hover{
-//             background: none;
-//             color: #1a1a1a;
-//         }
-//         &:after{
-//             background: linear-gradient(180deg, #35A483 0%, #077854 100%);
-//             border-radius: 14px;
-//             content: "";
-//             height: 100%;
-//             position: absolute;
-//             top: 0;
-//             transition: left 200ms cubic-bezier(0.77, 0, 0.175, 1);
-//             width: 100%;
-//             z-index: -1;
-//         }
-//     }
-//     &.toggle-left + label {
-//         border-right: 0;
-//         &:after{
-//             left: 100%
-//         }
-//     }
-//     &.toggle-right + label{
-//         margin-left: -5px;
-//         &:after{
-//             left: -100%;
-//         }
-//     }
-//     &:checked + label {
-//         cursor: default;
-//         color: #fff;
-//         transition: color 200ms;
-//         &:after{
-//             left: 0;
-//         }
-//     }
-// }
-// }
 #container {
 	width: 228px;
 	height: 40px;

@@ -393,20 +393,13 @@ export default {
       this.y = coordinates.y
     },
     getStrokes () {
-      window.localStorage.setItem(
-        "vue-drawing-canvas",
-        JSON.stringify(this.$refs.VueCanvasDrawing.getAllStrokes())
-      )
+      window.localStorage.setItem("vue-drawing-canvas", JSON.stringify(this.$refs.VueCanvasDrawing.getAllStrokes()))
       window.localStorage.setItem("vue-canvas", this.image)
-      // alert(
-      //   "Strokes saved, reload your browser to see the canvas with previously saved image"
-      // )
 
       this.$emit('setStep', 1)
     },
     removeSavedStrokes() {
       window.localStorage.removeItem("vue-drawing-canvas")
-      // alert("Strokes cleared from local storage")
 
       this.$refs.VueCanvasDrawing.reset()
     },

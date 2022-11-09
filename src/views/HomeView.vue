@@ -1,5 +1,7 @@
 <template>
   <div class='home p-0 m-o'>
+    <HeaderSection :step="step" :isLoading="isLoading" />
+
     <LoadingUploadModule v-if="isLoading" />
     <LoadingSignModule v-if="isLoadingSign" />
     <!-- <ChackLeaving v-if="isLeaving" /> -->
@@ -14,7 +16,7 @@
 
 <script>
 /* eslint-disable */
-
+import HeaderSection from '@/components/modules/headerSection.vue'
 import LoadingUploadModule from '@/components/modules/LoadingUploadModule.vue'
 import LoadingSignModule from '@/components/modules/LoadingSignModule.vue'
 // import ChackLeaving from '@/components/modules/warningAlert.vue'
@@ -28,6 +30,7 @@ import { onMounted, ref } from 'vue'
 export default {
   name: 'HomeView',
   components: {
+    HeaderSection,
     LoadingUploadModule,
     LoadingSignModule,
     Sign,

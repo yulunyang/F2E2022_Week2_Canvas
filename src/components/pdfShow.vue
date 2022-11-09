@@ -1,8 +1,10 @@
 <template>
   <div class='pdfShow w-screen h-screen relative'>
+    <WarningAlert v-if="isMountedAlert" @closeWarning="closeWarning" />
+    <SelectSign v-if="isSelectSign" @closeWarning="closeWarning" @selectedSign="selectedSign"  />
     <div class="header-top fixed top-0 left-0 w-full flex p-2 xl:hidden z-50">
       <div class="w-9/12 p-2">
-          <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-xl">
+          <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-3xl">
             <div>
               <div><img src="@/assets/img/arrowLeft.png" alt=""></div>
             </div>
@@ -17,13 +19,13 @@
           </div>
       </div>
       <div class="w-3/12 md:p-2 flex justify-center items-center">
-        <button type="button" class="downloadBtn py-4 w-full proj-bg-Gradient text-white rounded-xl proj-border-primary border-2 h-auto">
+        <button type="button" class="downloadBtn py-4 w-full proj-bg-Gradient text-white rounded-3xl proj-border-primary border-2 h-auto" @click="finishSign">
           完成簽署
         </button>
       </div>
     </div>
 
-    <img :src="signUrl" class='sign' style='border: 1px solid #000' width='250' height='150' />
+    <!-- <img :src="signUrl" class='sign' style='border: 1px solid #000' width='250' height='150' /> -->
 
     <div class="styledCreate__WrapperRight-sc-1i4fuzv-10 cKAFxH">
       <div id="viewer" tabindex="10" scale="1" class="styled__Wrapper-sc-cpx59f-1 gKmbon overflow-x-hidden">
@@ -32,26 +34,12 @@
             <div class="react-pdf__Page" data-page-number="1" style="position: relative;">
               <canvas id="canvas" class="react-pdf__Page__canvas block select-none" dir="ltr" width="2203" height="2851"></canvas>
             </div>
-            <!-- <div id="holder-DottedSign_5ca4e6e0-5f1b-11ed-aba8-617d5b381a48" class="styled__Wrapper-sc-v2t1xh-0 evylNs assign-fields" tabindex="57" style="position: absolute; left: 785.797px; top: 606px; width: 217px; height: 110px;">
-              <div class="styled__WrapperContent-sc-v2t1xh-1 hSSgBH">
-                <div class="styled__Block-sc-v2t1xh-3 iuNogo">
-                  <div id="DottedSign_5ca4e6e0-5f1b-11ed-aba8-617d5b381a48" tabindex="2" class="styled__Wrapper-sc-11rhaqg-0 iVUzBV sign-component" style="width: 100%; height: 100%; opacity: 1;">
-                    <div class="styled__Back-sc-11rhaqg-1 hiaZb"></div>
-                      <div tabindex="3" class="styled__Wrapper-sc-x80qw9-0 iHdadl">
-                        <div id="image-parent-DottedSign_5ca4e6e0-5f1b-11ed-aba8-617d5b381a48" class="styled__Wrapper-sc-13135sc-0 kTgXnH">
-                          <img :src="signUrl" alt="signature">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div> -->
           </div>
         </div>
       </div>
     </div>
 
-    <div class="footer fixed bottom-0 left-0 w-full ">
+    <div class="footer fixed bottom-0 left-0 w-full z-50">
       <div class="p-3 xl:p-0 ">
         <div class="mr-auto flex w-full">
           <div class="w-7/12 hidden xl:flex justify-end items-center bg-white">
@@ -80,26 +68,26 @@
               </div>
             </div>
           </div>
-          <div class="w-full xl:w-3/12 flex justify-center bg-white rounded-xl xl:rounded-none">
-            <a href="" class="flex flex-col items-center w-20 py-4">
+          <div class="w-full xl:w-3/12 flex justify-center bg-white rounded-3xl xl:rounded-none">
+            <a class="signBtn flex flex-col items-center w-20 py-4">
               <div class="icon flex justify-center items-center">
                 <img src="@/assets/img/icon/icon1.png" alt="">
               </div>
               <p class="text-sm mt-1">簽名</p>
             </a>
-            <a href="" class="flex flex-col items-center w-20 py-4">
+            <a class="selectBtn flex flex-col items-center w-20 py-4" @click="isSelectSign = true">
               <div class="icon flex justify-center items-center">
                 <img src="@/assets/img/icon/icon2.png" alt="">
               </div>
               <p class="text-sm mt-1">勾選</p>
             </a>
-            <a href="" class="flex flex-col items-center w-20 py-4">
+            <a class="dateBtn flex flex-col items-center w-20 py-4">
               <div class="icon flex justify-center items-center">
                 <img src="@/assets/img/icon/icon3.png" alt="">
               </div>
               <p class="text-sm mt-1">日期</p>
             </a>
-            <a href="" class="flex flex-col items-center w-20 py-4">
+            <a class="textBtn flex flex-col items-center w-20 py-4" @click="isTextSign = true">
               <div class="icon flex justify-center items-center">
                 <img src="@/assets/img/icon/icon4.png" alt="">
               </div>
@@ -107,7 +95,7 @@
             </a>
           </div>
           <div class="w-2/12 hidden xl:flex justify-center items-center bg-white">
-            <button type="button" class="downloadBtn py-4 px-16 proj-bg-Gradient text-white rounded-xl proj-border-primary border-2 h-auto" @click="finishSign">
+            <button type="button" class="downloadBtn py-4 px-16 proj-bg-Gradient text-white rounded-3xl proj-border-primary border-2 h-auto" @click="finishSign">
               完成簽署
             </button>
           </div>
@@ -119,22 +107,34 @@
 
 <script>
 /* eslint-disable */
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-// import { useStore } from "vuex"
+import WarningAlert from '@/components/modules/warningAlert_pdf.vue'
+import SelectSign from '@/components/popup/selectSign.vue'
 import bus from '@/bus'
 export default {
   name: 'pdfShow',
   components: {
+    WarningAlert,
+    SelectSign
   },
   setup (props, ctx) {
+    const signUrl = ref('')
+    const isMountedAlert = ref(false)
+    const isSelectSign = ref(false)
+    const isTextSign = ref(false)
+
     // const store = useStore()
     bus.on('fileUpload', (v) => {
       pdfInit(v)
     })
 
-    const signUrl = ref('')
     onMounted(() => {
+      if (localStorage.getItem('vue-canvas')) {
+        // sign.src = localStorage.getItem('vue-canvas')
+        signUrl.value = localStorage.getItem('vue-canvas')
+      }
+      // ctx.emit('showWarning', '請置入簽名後再完成簽署')
     })
     onBeforeRouteLeave((to, from) => {
       const answer = window.confirm(
@@ -202,31 +202,23 @@ export default {
         // 調整canvas大小
         canvas.setWidth(pdfImage.width / window.devicePixelRatio)
         canvas.setHeight(pdfImage.height / window.devicePixelRatio)
+        // canvas.setWidth(pdfImage.width)
+        // canvas.setHeight(pdfImage.height)
         canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
       }
       Init()
 
-    //   document.querySelector('input').addEventListener('change', async (e) => {
-    //   canvas.requestRenderAll()
-    //   const pdfData = await printPDF(e.target.files[0])
-    //   const pdfImage = await pdfToImage(pdfData)
-
-    //   // 調整canvas大小
-    //   canvas.setWidth(pdfImage.width / window.devicePixelRatio)
-    //   canvas.setHeight(pdfImage.height / window.devicePixelRatio)
-    //   canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
-    // })
-
       // 加入簽名
-      const sign = document.querySelector('.sign')
+      const sign = document.querySelector('.signBtn')
       if (localStorage.getItem('vue-canvas')) {
-        sign.src = localStorage.getItem('vue-canvas')
+        // sign.src = localStorage.getItem('vue-canvas')
+        signUrl.value = localStorage.getItem('vue-canvas')
       }
 
       sign.addEventListener('click', () => {
         console.log('sign')
-        if (!sign.src) return
-        fabric.Image.fromURL(sign.src, function (image) {
+        if (!signUrl.value) return
+        fabric.Image.fromURL(signUrl.value, (image) => {
           image.top = 400
           image.scaleX = 0.5
           image.scaleY = 0.5
@@ -261,18 +253,47 @@ export default {
 
       ctx.emit('finishSign', true)
     }
+    const closeWarning = (closeWarning) => {
+      isMountedAlert.value = false
+      isSelectSign.value = closeWarning
+    }
+
+    const selectedSign = (selectedSign) => {
+      console.log(selectedSign)
+      // const sign = document.querySelector('.sign')
+      // if (localStorage.getItem('vue-canvas')) {
+      //   sign.src = localStorage.getItem('vue-canvas')
+      // }
+
+      // sign.addEventListener('click', () => {
+        // console.log('sign')
+        // if (!selectedSign.src) return
+        const canvas = new fabric.Canvas('canvas')
+        fabric.Image.fromURL(selectedSign, (image) => {
+          image.top = 400
+          image.scaleX = 0.5
+          image.scaleY = 0.5
+          canvas.add(image)
+        })
+      // })
+    }
     return {
       finishSign,
       pdfInit,
       signUrl,
-      downLoadPdf
+      downLoadPdf,
+      isMountedAlert,
+      isSelectSign,
+      closeWarning,
+      selectedSign,
+      isTextSign
       // addSign
       // store
     }
   }
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .pdfShow {
   background: #F0F0F0;
   .react-pdf__Document {
@@ -325,7 +346,7 @@ export default {
 .gKmbon canvas {
     max-width: 100% !important;
     height: auto !important;
-    width: 100%;
+    width: 100% !important;
     height: 100%;
     // max-width: 1000px;
     // max-height: 1425px;
@@ -344,6 +365,12 @@ export default {
   //   width: 1040px;
   //   height: 1000px;
   // }
+}
+.canvas-container {
+  width: 100% !important;
+}
+canvas {
+  width: 100% !important;
 }
 .footer {
   box-shadow: 1px -1px 6px rgba(0, 0, 0, 0.11);

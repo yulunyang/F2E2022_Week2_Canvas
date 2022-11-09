@@ -62,11 +62,7 @@ export default {
 
       if (e.target.files[0].type.indexOf('pdf') > 0) {
         if (fileSize < 10) {
-          // store.dispatch('setFILE', e.target.files[0])
-          // console.log(e.target.files[0])
-          // console.log(JSON.stringify(e.target.files[0]))
           bus.emit('fileUpload', e.target.files[0])
-          // localStorage.setItem('temporaryFile', JSON.stringify(e.target.files[0]))
 
           ctx.emit('nextStep')
 
