@@ -1,5 +1,5 @@
 <template>
-  <div class="loading w-full h-screen left-0 top-0 z-50">
+  <div class="loading w-full h-screen left-0 top-0 z-50 fixed">
     <!-- <div class="py-4 px-6 md:px-28 lg:px-8">
       <img src="@/assets/img/logo.png" alt="" class="object-contain block">
     </div> -->

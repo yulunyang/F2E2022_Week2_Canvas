@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header w-full flex justify-between items-center proj-bg-primary py-1">
-      <a href="" class="inline-block p-4"><i class="fa-solid fa-chevron-left text-white text-lg"></i></a>
+      <router-link :to="{ name: 'home' }" class="inline-block p-4"><i class="fa-solid fa-chevron-left text-white text-lg"></i></router-link>
       <div class="wrap w-1/3">
         <div class="search flex items-center">
           <button type="submit" class="searchButton">

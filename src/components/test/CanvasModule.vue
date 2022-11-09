@@ -226,7 +226,7 @@
           Remove Saved Strokes
         </button>
       </div>
-      <!-- <div class="button-container">
+      <div class="button-container">
         <div style="margin-right: 30px">
           <p style="margin-bottom: 0">Background Color:</p>
           <input type="color" v-model="backgroundColor" />
@@ -239,13 +239,13 @@
           <p style="margin-bottom: 0">Upload Watermark Image:</p>
           <input type="file" @change="setWatermarkImage($event)" />
         </div>
-      </div> -->
+      </div>
     </div>
 
-    <!-- <div class="output">
+    <div class="output">
       <p>Output:</p>
       <img :src="image" style="border: solid 1px #000000" />
-    </div> -->
+    </div>
   </div>
 </template>
 

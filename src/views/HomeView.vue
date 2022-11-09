@@ -23,7 +23,6 @@ import Upload from '@/components/Upload.vue'
 import Sign from '@/components/Sign.vue'
 import pdfShow from '@/components/pdfShow.vue'
 import DownloadStatus from '@/components/downloadStatus.vue'
-import { onBeforeRouteLeave } from 'vue-router'
 import { onMounted, ref } from 'vue'
 
 export default {
@@ -48,12 +47,6 @@ export default {
     const step = ref(0)
     const timer = ref(null)
     onMounted(() => {
-    })
-    onBeforeRouteLeave((to, from) => {
-      const answer = window.confirm(
-        'Do you really want to leave? you have unsaved changes!'
-      )
-      if (!answer) return false
     })
 
     const isFileOverAlert = (isFileOverAlert) => {

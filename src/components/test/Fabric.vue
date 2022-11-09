@@ -9,7 +9,7 @@
     <p>選擇簽名</p>
     <img class='sign' style='border: 1px solid #000' width='250' height='150' />
 
-    <button class="py-2 px-3 bg-gray-600 text-white download">download PDF</button>
+    <button class="py-2 px-3 bg-gray-600 text-white downloadBtn">download PDF</button>
     <a @click="$emit('setStep', 0)">上一頁</a>
   </div>
 </template>
@@ -101,14 +101,19 @@ export default {
 
       // 下讚PDF
       const pdf = new jsPDF()
-      const download = document.querySelector('.download')
+
+      const download = document.querySelector('.downloadBtn')
       download.addEventListener('click', () => {
         const image = canvas.toDataURL('image/png')
         const width = pdf.internal.pageSize.width
         const height = pdf.internal.pageSize.height
         pdf.addImage(image, 'png', 0, 0, width, height)
         pdf.save('download.pdf')
-      });
+
+        console.log(pdf)
+        console.log(canvas)
+        console.log('downloadPdf')
+      })
     })
 
     return {

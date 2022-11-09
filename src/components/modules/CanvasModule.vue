@@ -1,11 +1,17 @@
 <template>
   <div class="flex flex-col items-center">
-    <div class="flex mb-4">
-      <a href="" class="h-8 w-8 rounded-full inline-block bg-black m-2"></a>
-      <a href="" class="h-8 w-8 rounded-full inline-block bg-blue-700 m-2"></a>
-      <a href="" class="h-8 w-8 rounded-full inline-block bg-red-700 m-2"></a>
+    <div class="flex mb-6" :class="{ 'invisible': !isSignSelf }">
+      <a class="h-8 w-8 rounded-full inline-block bg-black m-2 relative" @click="setColor('#000000')">
+        <div class="h-7 w-7 rounded-full inline-block bg-black border-2 border-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+      </a>
+      <a class="h-8 w-8 rounded-full inline-block proj-bg-blue m-2 relative"  @click="setColor('#0014C7')">
+        <div class="h-7 w-7 rounded-full inline-block proj-bg-blue border-2 border-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+      </a>
+      <a class="h-8 w-8 rounded-full inline-block proj-bg-red m-2 relative"  @click="setColor('#CA0000')">
+        <div class="h-7 w-7 rounded-full inline-block proj-bg-red border-2 border-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+      </a>
     </div>
-    <div class="source">
+    <div class="source" v-show="isSignSelf">
       <vue-drawing-canvas
         ref="VueCanvasDrawing"
         v-model:image="image"
@@ -131,8 +137,8 @@
           </svg>
           Reset
         </button>
-      </div>
-      <div class="button-container">
+      </div> -->
+    <!-- <div class="button-container">
         <button type="button" @click.prevent="eraser = !eraser">
           <span v-if="eraser">
             <svg
@@ -230,6 +236,47 @@
           Remove Saved Strokes
         </button>
       </div> -->
+      <!-- <div class="button-container flex">
+        <div style="margin-right: 30px">
+          <p style="margin-bottom: 0">Background Color:</p>
+          <input type="color" v-model="backgroundColor" />
+        </div>
+        <div>
+          <p style="margin-bottom: 0">Upload Background Image:</p>
+          <input type="file" @change="setImage($event)" />
+        </div>
+        <div>
+          <p>Upload Watermark Image:</p>
+          <input type="file" @change="setWatermarkImage($event)" />
+        </div>
+      </div> -->
+      <div class="button-container w-full mt-6 xl:mt-10 flex">
+        <div class="w-1/2 p-2">
+          <button type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-full rounded-lg proj-border-primary border-2">
+            清除
+          </button>
+        </div>
+        <div class="w-1/2 p-2">
+          <button type="button" @click.prevent="getStrokes()" class="py-3 px-3 proj-bg-Gradient text-white w-full rounded-lg proj-border-primary border-2">
+            建立簽名
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="output" v-show="!isSignSelf">
+
+      <div v-if="!isFile" style="width: 600px; height: 400px" class="bg-white">
+        <img :src="image" style="border-radius: 26px" />
+        <input type="file" @change="setWatermarkImage($event)" />
+        <!-- <label for="" class="flex items-center w-full h-full overflow-hidden">
+          <input @change="setWatermarkImage($event)" class="w-1 h-1 opacity-0 overflow-hidden absolute z-0" accept="image/*" />
+        </label> -->
+        <!-- <input type="file" @change="setWatermarkImage($event)" /> -->
+      </div>
+      <!-- <img :src="image" style="border-radius: 26px" /> -->
+
       <div class="button-container w-full mt-10 flex">
         <div class="w-1/2 p-2">
           <button type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-full rounded-lg proj-border-primary border-2">
@@ -243,26 +290,7 @@
         </div>
 
       </div>
-      <!-- <div class="button-container">
-        <div style="margin-right: 30px">
-          <p style="margin-bottom: 0">Background Color:</p>
-          <input type="color" v-model="backgroundColor" />
-        </div>
-        <div>
-          <p style="margin-bottom: 0">Upload Background Image:</p>
-          <input type="file" @change="setImage($event)" />
-        </div>
-        <div>
-          <p style="margin-bottom: 0">Upload Watermark Image:</p>
-          <input type="file" @change="setWatermarkImage($event)" />
-        </div>
-      </div> -->
     </div>
-
-    <!-- <div class="output">
-      <p>Output:</p>
-      <img :src="image" style="border: solid 1px #000000" />
-    </div> -->
   </div>
 </template>
 
@@ -275,6 +303,10 @@ export default {
     VueDrawingCanvas,
   },
   props: {
+    isSignSelf: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -305,17 +337,36 @@ export default {
       backgroundColor: "#FFFFFF",
       backgroundImage: null,
       watermark: null,
-      additionalImages: []
+      additionalImages: [],
+
+      isFile: false
     }
   },
   mounted () {
-    if ("vue-drawing-canvas" in window.localStorage) {
-      this.initialImage = JSON.parse(
-        window.localStorage.getItem("vue-drawing-canvas")
-      )
-    }
+    this.init()
   },
   methods: {
+    init () {
+      if ("vue-drawing-canvas" in window.localStorage) {
+        this.initialImage = JSON.parse(
+          window.localStorage.getItem("vue-drawing-canvas")
+        )
+      } else {
+          this.initialImage = [
+          {
+            type: "dash",
+            from: {
+              x: 262,
+              y: 154,
+            },
+            coordinates: [],
+            color: "#000000",
+            width: 5,
+            fill: false,
+          },
+        ]
+      }
+    },
     async setImage (event) {
       let URL = window.URL
       this.backgroundImage = URL.createObjectURL(event.target.files[0])
@@ -334,6 +385,7 @@ export default {
         },
       }
       await this.$refs.VueCanvasDrawing.redraw()
+      this.isFile = true
     },
     getCoordinate (event) {
       let coordinates = this.$refs.VueCanvasDrawing.getCoordinates(event)
@@ -354,7 +406,12 @@ export default {
     },
     removeSavedStrokes() {
       window.localStorage.removeItem("vue-drawing-canvas")
-      alert("Strokes cleared from local storage")
+      // alert("Strokes cleared from local storage")
+
+      this.$refs.VueCanvasDrawing.reset()
+    },
+    setColor (color) {
+      this.color = color
     }
   }
 }
