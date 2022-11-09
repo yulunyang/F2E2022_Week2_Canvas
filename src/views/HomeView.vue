@@ -37,7 +37,6 @@ export default {
     Upload,
     pdfShow,
     DownloadStatus,
-    // ChackLeaving,
     WarningAlert
   },
   setup () {

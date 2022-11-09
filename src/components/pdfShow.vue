@@ -2,6 +2,7 @@
   <div class='pdfShow w-screen h-screen relative'>
     <WarningAlert v-if="isMountedAlert" @closeWarning="closeWarning" />
     <SelectSign v-if="isSelectSign" @closeWarning="closeWarning" @selectedSign="selectedSign"  />
+    <selectText v-if="isSelectText" @closeWarning="closeWarning" @selectedSign="selectedText"  />
     <div class="header-top fixed top-0 left-0 w-full flex p-2 xl:hidden z-50">
       <div class="w-9/12 p-2">
           <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-3xl">
@@ -87,7 +88,7 @@
               </div>
               <p class="text-sm mt-1">日期</p>
             </a>
-            <a class="textBtn flex flex-col items-center w-20 py-4" @click="isTextSign = true">
+            <a class="textBtn flex flex-col items-center w-20 py-4" @click="isSelectText = true">
               <div class="icon flex justify-center items-center">
                 <img src="@/assets/img/icon/icon4.png" alt="">
               </div>
@@ -111,18 +112,21 @@ import { onMounted, ref, reactive } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import WarningAlert from '@/components/modules/warningAlert_pdf.vue'
 import SelectSign from '@/components/popup/selectSign.vue'
+import selectText from '@/components/popup/selectText.vue'
 import bus from '@/bus'
 export default {
   name: 'pdfShow',
   components: {
     WarningAlert,
-    SelectSign
+    SelectSign,
+    selectText
   },
   setup (props, ctx) {
     const signUrl = ref('')
     const isMountedAlert = ref(false)
     const isSelectSign = ref(false)
     const isTextSign = ref(false)
+    const isSelectText = ref(false)
 
     // const store = useStore()
     bus.on('fileUpload', (v) => {
@@ -256,6 +260,7 @@ export default {
     const closeWarning = (closeWarning) => {
       isMountedAlert.value = false
       isSelectSign.value = closeWarning
+      isSelectText.value = false
     }
 
     const selectedSign = (selectedSign) => {
@@ -270,12 +275,16 @@ export default {
         // if (!selectedSign.src) return
         const canvas = new fabric.Canvas('canvas')
         fabric.Image.fromURL(selectedSign, (image) => {
-          image.top = 400
+          image.top = 0
           image.scaleX = 0.5
           image.scaleY = 0.5
           canvas.add(image)
         })
       // })
+    }
+
+    const selectedText = (selectedText) => {
+      console.log(selectedText)
     }
     return {
       finishSign,
@@ -286,7 +295,9 @@ export default {
       isSelectSign,
       closeWarning,
       selectedSign,
-      isTextSign
+      isTextSign,
+      isSelectText,
+      selectedText
       // addSign
       // store
     }

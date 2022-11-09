@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="footer w-full text-center md:text-right absolute bottom-4 left-50 md:right-4 text-xs">
+    <div class="upload_footer w-full text-center md:text-right absolute bottom-4 left-50 md:right-4 text-xs">
       <p>小綠簽 © Code: Alex  /  Design: KT</p>
     </div>
   </div>

@@ -2,13 +2,13 @@
   <div class="flex flex-col items-center">
     <div class="flex mb-6" :class="{ 'invisible': !isSignSelf }">
       <a class="h-8 w-8 rounded-full inline-block bg-black m-2 relative" @click="setColor('#000000')">
-        <div class="h-7 w-7 rounded-full inline-block bg-black border-2 border-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="h-7 w-7 rounded-full inline-block bg-black absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" :class="{ 'border-2 border-white': color === '#000000' }"></div>
       </a>
       <a class="h-8 w-8 rounded-full inline-block proj-bg-blue m-2 relative"  @click="setColor('#0014C7')">
-        <div class="h-7 w-7 rounded-full inline-block proj-bg-blue border-2 border-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="h-7 w-7 rounded-full inline-block proj-bg-blue absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" :class="{ 'border-2 border-white': color === '#0014C7' }"></div>
       </a>
       <a class="h-8 w-8 rounded-full inline-block proj-bg-red m-2 relative"  @click="setColor('#CA0000')">
-        <div class="h-7 w-7 rounded-full inline-block proj-bg-red border-2 border-white absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="h-7 w-7 rounded-full inline-block proj-bg-red absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" :class="{ 'border-2 border-white': color === '#CA0000' }"></div>
       </a>
     </div>
     <div class="source" v-show="isSignSelf">
