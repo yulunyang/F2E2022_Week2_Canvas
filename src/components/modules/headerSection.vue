@@ -4,7 +4,7 @@
     <div class="mx-auto py-4 px-6 md:px-28 lg:px-8 lg:pr-36">
       <div class="flex justify-between w-full items-end lg:items-center">
         <div class="flex items-center">
-          <router-link :to="{ name: 'home' }" class="block px-3 cursor-pointer "><img src="@/assets/img/logo.png" alt="" class="object-contain block"></router-link>
+          <a @click="backStepFirst" class="block px-3 cursor-pointer "><img src="@/assets/img/logo.png" alt="" class="object-contain block"></a>
         </div>
         <div class="flex items-center" v-if="step === 0 || isLoading">
           <router-link :to="{ name: 'records' }" class="pt-2 lg:py-2 px-5 inline-block items-center justify-center button cursor-pointer rounded-3xl border-2">歷史記錄</router-link>
@@ -26,7 +26,14 @@ export default({
       default: true
     }
   },
-  setup () {
+  setup (props, ctx) {
+    const backStepFirst = () => {
+      ctx.emit('backStepFirst')
+    }
+
+    return {
+      backStepFirst
+    }
   },
 })
 </script>

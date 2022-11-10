@@ -296,11 +296,11 @@
 
 <script>
 import VueDrawingCanvas from "vue-drawing-canvas"
-
+import bus from '@/bus'
 export default {
   name: "CanvasModule",
   components: {
-    VueDrawingCanvas,
+    VueDrawingCanvas
   },
   props: {
     isSignSelf: {
@@ -397,6 +397,8 @@ export default {
       window.localStorage.setItem("vue-canvas", this.image)
 
       this.$emit('setStep', 1)
+
+      bus.emit('reloadSign')
     },
     removeSavedStrokes() {
       window.localStorage.removeItem("vue-drawing-canvas")

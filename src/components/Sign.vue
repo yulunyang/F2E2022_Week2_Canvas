@@ -34,7 +34,7 @@ import CanvasModule from '@/components/modules/CanvasModule.vue'
 export default {
   name: 'Sign',
   components: {
-    CanvasModule
+    CanvasModule,
   },
   setup (props, ctx) {
     const isSignSelf = ref(true)

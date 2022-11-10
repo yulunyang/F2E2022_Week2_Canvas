@@ -1,11 +1,12 @@
 <template>
   <div class="warningAlert_pdf w-full h-screen left-0 top-0 fixed">
+    <div class="select_bg absolute h-screen w-screen left-0 top-0" @click="closeWarning"></div>
     <div class="loading-text absolute text-xl max-w-md w-full">
       <div class="bg rounded-3xl overflow-hidden shadow-lg w-full">
         <div class="px-4 py-6 flex flex-col justify-center w-full">
           <!-- <div class="font-bold text-lg mb-8 whitespace-nowrap text-center proj-text-primary">請選擇簽名</div> -->
           <div class="mb-6">
-            <textarea class="w-full h-36 rounded-3xl" />
+            <textarea class="w-full h-36 rounded-3xl p-3" v-model="text" />
             <!-- <div class="h-auto bg-white w-4/5 rounded-3xl" @click="selectedSign(url)">
               <img :src="url" class='sign mx-auto object-contain w-36' />
             </div>
@@ -19,7 +20,7 @@
               取消
             </button>
             <button type="button" class="py-4 px-16 proj-bg-Gradient text-white rounded-3xl proj-border-primary border-2 h-auto w-1/2 mx-1"
-              @click="closeWarning">
+              @click="selectText()">
               確定
             </button>
 
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { ref } from 'vue'
 
 export default {
   name: 'warningAlert_pdf',
@@ -43,32 +44,23 @@ export default {
   },
   setup (props, ctx) {
 
-    const url = ref('')
+    const text = ref('')
 
-    onMounted(() => {
-      if (localStorage.getItem('vue-canvas')) {
-        url.value = localStorage.getItem('vue-canvas')
-      }
-      })
-    onUnmounted(() => {
-    })
 
     const closeWarning = () => {
       ctx.emit('closeWarning')
     }
-    const selectedSign = (url) => {
-      ctx.emit('selectedSign', url)
+
+    const selectText = () => {
+      ctx.emit('selectedText', text.value)
       closeWarning()
       // console.log(url)
     }
-    const delecteSign = (url) => {
-      console.log(url)
-    }
+
     return {
-      url,
       closeWarning,
-      selectedSign,
-      delecteSign
+      selectText,
+      text
     }
   }
 }
@@ -76,9 +68,13 @@ export default {
 
 <style scoped lang="scss">
 .warningAlert_pdf {
+  // background: rgba(186, 186, 186, 0.47);
+  // backdrop-filter: blur(2.5px);
+  z-index: 10;
+}
+.select_bg {
   background: rgba(186, 186, 186, 0.47);
   backdrop-filter: blur(2.5px);
-  z-index: 10;
 }
 .loading-text {
   left: 50%;

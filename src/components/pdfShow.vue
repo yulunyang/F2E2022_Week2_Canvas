@@ -2,7 +2,7 @@
   <div class='pdfShow w-screen h-screen relative'>
     <WarningAlert v-if="isMountedAlert" @closeWarning="closeWarning" />
     <SelectSign v-if="isSelectSign" @closeWarning="closeWarning" @selectedSign="selectedSign"  />
-    <selectText v-if="isSelectText" @closeWarning="closeWarning" @selectedSign="selectedText"  />
+    <selectText v-if="isSelectText" @closeWarning="closeWarning" @selectedText="selectedText"  />
     <div class="header-top fixed top-0 left-0 w-full flex p-2 xl:hidden z-50">
       <div class="w-9/12 p-2">
           <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-3xl">
@@ -70,26 +70,26 @@
             </div>
           </div>
           <div class="w-full xl:w-3/12 flex justify-center bg-white rounded-3xl xl:rounded-none">
-            <a class="signBtn flex flex-col items-center w-20 py-4">
+            <a class="signBtn flex flex-col items-center w-20 py-4 cursor-pointer">
               <div class="icon flex justify-center items-center">
                 <img src="@/assets/img/icon/icon1.png" alt="">
               </div>
               <p class="text-sm mt-1">簽名</p>
             </a>
             <a class="selectBtn flex flex-col items-center w-20 py-4" @click="isSelectSign = true">
-              <div class="icon flex justify-center items-center">
+              <div class="icon flex justify-center items-center cursor-pointer">
                 <img src="@/assets/img/icon/icon2.png" alt="">
               </div>
               <p class="text-sm mt-1">勾選</p>
             </a>
-            <a class="dateBtn flex flex-col items-center w-20 py-4">
-              <div class="icon flex justify-center items-center">
+            <a class="dateBtn flex flex-col items-center w-20 py-4" @click="selectedDate()">
+              <div class="icon flex justify-center items-center cursor-pointer">
                 <img src="@/assets/img/icon/icon3.png" alt="">
               </div>
               <p class="text-sm mt-1">日期</p>
             </a>
             <a class="textBtn flex flex-col items-center w-20 py-4" @click="isSelectText = true">
-              <div class="icon flex justify-center items-center">
+              <div class="icon flex justify-center items-center cursor-pointer">
                 <img src="@/assets/img/icon/icon4.png" alt="">
               </div>
               <p class="text-sm mt-1">插入文字</p>
@@ -132,7 +132,11 @@ export default {
     bus.on('fileUpload', (v) => {
       pdfInit(v)
     })
-
+    bus.on('reloadSign', (v) => {
+      if (localStorage.getItem('vue-canvas')) {
+        signUrl.value = localStorage.getItem('vue-canvas')
+      }
+    })
     onMounted(() => {
       if (localStorage.getItem('vue-canvas')) {
         // sign.src = localStorage.getItem('vue-canvas')
@@ -204,10 +208,10 @@ export default {
         const pdfImage = await pdfToImage(pdfData)
 
         // 調整canvas大小
-        canvas.setWidth(pdfImage.width / window.devicePixelRatio)
-        canvas.setHeight(pdfImage.height / window.devicePixelRatio)
-        // canvas.setWidth(pdfImage.width)
-        // canvas.setHeight(pdfImage.height)
+        // canvas.setWidth(pdfImage.width / window.devicePixelRatio)
+        // canvas.setHeight(pdfImage.height / window.devicePixelRatio)
+        canvas.setWidth(pdfImage.width)
+        canvas.setHeight(pdfImage.height)
         canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
       }
       Init()
@@ -264,28 +268,39 @@ export default {
     }
 
     const selectedSign = (selectedSign) => {
-      console.log(selectedSign)
-      // const sign = document.querySelector('.sign')
-      // if (localStorage.getItem('vue-canvas')) {
-      //   sign.src = localStorage.getItem('vue-canvas')
-      // }
-
-      // sign.addEventListener('click', () => {
-        // console.log('sign')
-        // if (!selectedSign.src) return
-        const canvas = new fabric.Canvas('canvas')
-        fabric.Image.fromURL(selectedSign, (image) => {
-          image.top = 0
-          image.scaleX = 0.5
-          image.scaleY = 0.5
-          canvas.add(image)
-        })
-      // })
+      const canvas = new fabric.Canvas('canvas')
+      fabric.Image.fromURL(selectedSign, (image) => {
+        image.top = 0
+        image.scaleX = 0.5
+        image.scaleY = 0.5
+        canvas.add(image)
+      })
     }
 
     const selectedText = (selectedText) => {
-      console.log(selectedText)
+      const canvas = new fabric.Canvas('canvas')
+
+      var text = new fabric.Text(selectedText, (image) => {
+        image.top = 10
+        image.left = 10
+        image.scaleX = 0.5
+        image.scaleY = 0.5
+      })
+      canvas.add(text)
     }
+
+    const selectedDate = () => {
+      const canvas = new fabric.Canvas('canvas')
+
+      var text = new fabric.Text('2022/11/11', (image) => {
+        image.top = 10
+        image.left = 10
+        image.scaleX = 0.5
+        image.scaleY = 0.5
+      })
+      canvas.add(text)
+    }
+
     return {
       finishSign,
       pdfInit,
@@ -297,7 +312,8 @@ export default {
       selectedSign,
       isTextSign,
       isSelectText,
-      selectedText
+      selectedText,
+      selectedDate
       // addSign
       // store
     }

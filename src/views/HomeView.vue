@@ -1,6 +1,6 @@
 <template>
   <div class='home p-0 m-o'>
-    <HeaderSection :step="step" :isLoading="isLoading" />
+    <HeaderSection :step="step" :isLoading="isLoading" @backStepFirst="step = 0" />
 
     <LoadingUploadModule v-if="isLoading" />
     <LoadingSignModule v-if="isLoadingSign" />
@@ -10,7 +10,7 @@
     <Upload v-show="step === 0" @nextStep="nextStep" @showWarning="isFileOverAlert"  />
     <Sign v-show="step === 1" @setStep2="setStep2" />
     <pdfShow v-show="step === 2" @finishSign="finishSign" />
-    <DownloadStatus v-show="step === 3" :isSuccess="downloadStatus" @backIndex="backIndex" />
+    <DownloadStatus v-show="step === 3" @backIndex="backIndex" />
   </div>
 </template>
 
@@ -44,7 +44,6 @@ export default {
     const isLoadingSign = ref(false)
     const isLeaving = ref(false)
     const isWarning = ref(false)
-    const downloadStatus = ref(true)
     const isWarningText = ref('')
     const step = ref(0)
     const timer = ref(null)
@@ -80,7 +79,6 @@ export default {
     }
     const closeWarning = (closeWarning) => {
       isWarning.value = false
-      downloadStatus.value = closeWarning
     }
 
     const backIndex = () => {
@@ -99,7 +97,6 @@ export default {
       setStep2,
       closeWarning,
       finishSign,
-      downloadStatus,
       backIndex
     }
   }

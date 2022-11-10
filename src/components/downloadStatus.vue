@@ -23,28 +23,35 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 export default {
   components: {
   },
   props: {
-    isSuccess: {
-      type: Boolean,
-      default: true
-    }
   },
   setup (props, ctx) {
-    // const isSuccess = ref(false)
+    const isSuccess = ref(false)
     onMounted(() => {
-      })
+      random()
+    })
     onUnmounted(() => {
     })
+
+    const random = () => {
+      let num = Math.floor(Math.random() * 100) + 1
+      if (num > 90) {
+        isSuccess.value = false
+      }
+
+      isSuccess.value = true
+    }
     const backIndex = () => {
       ctx.emit('backIndex')
     }
     return {
-      backIndex
-      // isSuccess
+      backIndex,
+      random,
+      isSuccess
     }
   }
 }
