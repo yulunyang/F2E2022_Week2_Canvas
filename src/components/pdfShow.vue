@@ -33,7 +33,7 @@
         <div class="react-pdf__Document">
           <div id="pageContainer1" class="styled__WrapperPage-sc-cpx59f-2 cFGXRm page" width="1101.6000000000001" height="1425.6000000000001" style="">
             <div class="react-pdf__Page" data-page-number="1" style="position: relative;">
-              <canvas id="canvas" class="react-pdf__Page__canvas block select-none" dir="ltr" width="2203" height="2851"></canvas>
+              <canvas id="canvas" class="react-pdf__Page__canvas block select-none" dir="ltr"></canvas>
             </div>
           </div>
         </div>
@@ -127,6 +127,7 @@ export default {
     const isSelectSign = ref(false)
     const isTextSign = ref(false)
     const isSelectText = ref(false)
+    const percentWidth = ref('100%')
 
     // const store = useStore()
     bus.on('fileUpload', (v) => {
@@ -139,10 +140,8 @@ export default {
     })
     onMounted(() => {
       if (localStorage.getItem('vue-canvas')) {
-        // sign.src = localStorage.getItem('vue-canvas')
         signUrl.value = localStorage.getItem('vue-canvas')
       }
-      // ctx.emit('showWarning', '請置入簽名後再完成簽署')
     })
     onBeforeRouteLeave((to, from) => {
       const answer = window.confirm(
@@ -157,7 +156,6 @@ export default {
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
 
       const readBlob = (blob) => {
-        console.log('readBlob')
         return new Promise((resolve, reject) => {
           const reader = new FileReader()
           reader.addEventListener('load', () => resolve(reader.result))
@@ -167,14 +165,14 @@ export default {
       }
 
       const printPDF = async(pdfData) => {
-        console.log('printPDF')
         pdfData = await readBlob(pdfData)
         const data = atob(pdfData.substring(Base64Prefix.length))
 
         const pdfDoc = await pdfjsLib.getDocument({ data }).promise
         const pdfPage = await pdfDoc.getPage(1)
 
-        const viewport = pdfPage.getViewport({ scale: window.devicePixelRatio })
+        // const viewport = pdfPage.getViewport({ scale: window.devicePixelRatio })
+        const viewport = pdfPage.getViewport({ scale: 1 })
         const canvas = document.createElement('canvas')
         const context = canvas.getContext('2d')
 
@@ -183,8 +181,10 @@ export default {
         canvas.width = viewport.width
         const renderContext = {
           canvasContext: context,
-          viewport,
+          viewport
         }
+        console.log(window.devicePixelRatio)
+        console.log(viewport)
         const renderTask = pdfPage.render(renderContext)
 
         // 回傳做好的canvas
@@ -192,11 +192,10 @@ export default {
       }
 
       const pdfToImage = async(pdfData) => {
-        console.log('pdfToImage')
         const scale = 1 / window.devicePixelRatio
         return new fabric.Image(pdfData, {
           scaleX: scale,
-          scaleY: scale,
+          scaleY: scale
         })
       }
 
@@ -224,7 +223,6 @@ export default {
       }
 
       sign.addEventListener('click', () => {
-        console.log('sign')
         if (!signUrl.value) return
         fabric.Image.fromURL(signUrl.value, (image) => {
           image.top = 400
@@ -234,18 +232,21 @@ export default {
         })
       })
 
-      // 下載PDF
-      // const pdf = new jsPDF()
+      // 加入日期
+      const dateBtn = document.querySelector('.dateBtn')
+      if (localStorage.getItem('vue-canvas')) {
+        // sign.src = localStorage.getItem('vue-canvas')
+        signUrl.value = localStorage.getItem('vue-canvas')
+      }
 
-      // const downloadBtn = document.querySelector('.downloadBtn')
-      // downloadBtn.addEventListener('click', () => {
-      //   const image = canvas.toDataURL('image/png')
-      //   const width = pdf.internal.pageSize.width
-      //   const height = pdf.internal.pageSize.height
-      //   pdf.addImage(image, 'png', 0, 0, width, height)
-      //   pdf.save('download.pdf')
-
-      // })
+      dateBtn.addEventListener('click', () => {
+        fabric.Image.fromURL(signUrl.value, (image) => {
+          image.top = 400
+          image.scaleX = 0.5
+          image.scaleY = 0.5
+          canvas.add(image)
+        })
+      })
     }
     const downLoadPdf = () => {
       const pdf = new jsPDF()
@@ -301,6 +302,11 @@ export default {
       canvas.add(text)
     }
 
+    const perPage = () => {}
+    const nextPage = () => {}
+    const percentPlus = () => {}
+    const percentMinus = () => {}
+
     return {
       finishSign,
       pdfInit,
@@ -313,9 +319,11 @@ export default {
       isTextSign,
       isSelectText,
       selectedText,
-      selectedDate
-      // addSign
-      // store
+      selectedDate,
+      perPage,
+      nextPage,
+      percentPlus,
+      percentMinus
     }
   }
 }
@@ -328,77 +336,59 @@ export default {
     transform: translate3d(0px, 0px, 0px) scale3d(0.883261, 0.883261, 1);
     height: calc(88.3261%);
   }
-.cKAFxH {
-    position: relative;
-    display: inline-flex;
-    flex-direction: column;
+  .cKAFxH {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100% - 70px);
+      overflow-y: hidden;
+      padding: 48px 100px;
+      @media (max-width: 1440px) {
+        padding: 100px 1rem;
+        height: calc(100% - 10px);
+      }
+  }
+  .gKmbon {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      margin-top: -10px;
+      margin-bottom: -10px;
+      display: flex;
+      flex-direction: column;
+      -webkit-box-align: center;
+      align-items: center;
+  }
+  .gKmbon .react-pdf__Document {
+      transform-origin: center top;
+      transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1);
+      height: calc(100%);
+  }
+  .cFGXRm {
+      position: relative;
+      max-width: 100%;
+      width: 1101.6px;
+      height: 1425.6px;
+      background-color: white;
+      margin: 0px auto 20px;
+  }
+  .react-pdf__Page {
     width: 100%;
-    height: calc(100% - 70px);
-    // height: 100%;
-    overflow-y: hidden;
-    padding: 48px 100px;
-    @media (max-width: 1440px) {
-      padding: 100px 1rem;
-      height: calc(100% - 10px);
-    // padding-top: 90px;
-    }
-}
-.gKmbon {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    margin-top: -10px;
-    margin-bottom: -10px;
-    display: flex;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-}
-.gKmbon .react-pdf__Document {
-    transform-origin: center top;
-    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1);
-    height: calc(100%);
-}
-.cFGXRm {
-    position: relative;
-    max-width: 100%;
-    width: 1101.6px;
-    height: 1425.6px;
-    background-color: white;
-    margin: 0px auto 20px;
-}
-.react-pdf__Page {
-  width: 100%;
-}
-.gKmbon canvas {
-    max-width: 100% !important;
-    height: auto !important;
-    width: 100% !important;
-    height: 100%;
-    // max-width: 1000px;
-    // max-height: 1425px;
-    object-fit: cover;
-    // @media (max-width: 1023px) {
-    // width: 900px;
-    // height: 1425px;
-    // }
-    // @media (max-width: 768px) {
-    // width: 700px;
-    // height: 1425px;
-    // }
-}
-  // #canvas {
-  //   background: white;
-  //   width: 1040px;
-  //   height: 1000px;
-  // }
+  }
+  .gKmbon canvas {
+      max-width: 100% !important;
+      height: auto !important;
+      width: 100% !important;
+      object-fit: cover;
+  }
 }
 .canvas-container {
   width: 100% !important;
 }
-canvas {
-  width: 100% !important;
-}
+// canvas {
+//   width: 100% !important;
+// }
 .footer {
   box-shadow: 1px -1px 6px rgba(0, 0, 0, 0.11);
   @media (max-width: 1023px) {
