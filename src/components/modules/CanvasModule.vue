@@ -267,15 +267,15 @@
 
     <div class="output" v-show="!isSignSelf">
 
-      <div v-if="!isFile" style="width: 600px; height: 400px" class="bg-white">
+      <div v-if="isFile" style="width: 600px; height: 400px" class="bg-white round">
         <img :src="image" style="border-radius: 26px" />
-        <input type="file" @change="setWatermarkImage($event)" />
-        <!-- <label for="" class="flex items-center w-full h-full overflow-hidden">
-          <input @change="setWatermarkImage($event)" class="w-1 h-1 opacity-0 overflow-hidden absolute z-0" accept="image/*" />
-        </label> -->
-        <!-- <input type="file" @change="setWatermarkImage($event)" /> -->
       </div>
-      <!-- <img :src="image" style="border-radius: 26px" /> -->
+      <div v-else style="width: 600px; height: 400px" class="bg-white round">
+        <label  for="file-upload" class="custom-file-upload w-full flex items-center justify-center">
+          <span>請選擇檔案</span>
+        </label>
+        <input type="file" @change="setWatermarkImage($event)" accept="image/*" id="file-upload" />
+      </div>
 
       <div class="button-container w-full mt-10 flex">
         <div class="w-1/2 p-2">
@@ -425,5 +425,29 @@ export default {
 .button-container > * {
   margin-top: 15px;
   margin-right: 10px;
+}
+.output input[type=file] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.round {
+  border-radius: 26px;
+}
+label {
+	width: 100%;
+  height: 100%;
+	text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: sans-serif;
+  cursor: pointer;
+  /* display: inline-block; */
+  overflow: hidden;
+  color: #B7B7B7;
+  background: none;
 }
 </style>

@@ -121,7 +121,7 @@ export default {
   setup (props, ctx) {
     const signUrl = ref('')
     const isMountedAlert = ref(false)
-    const isSelectSign = ref(true)
+    const isSelectSign = ref(false)
     const isTextSign = ref(false)
     const isSelectText = ref(false)
     const percentWidth = ref('100%')
@@ -227,18 +227,16 @@ export default {
 
       // 加入日期
       const dateBtn = document.querySelector('.dateBtn')
-      if (localStorage.getItem('vue-canvas')) {
-        // sign.src = localStorage.getItem('vue-canvas')
-        signUrl.value = localStorage.getItem('vue-canvas')
-      }
+      const today = moment().format('YYYY/MM/DD')
 
       dateBtn.addEventListener('click', () => {
-        fabric.Image.fromURL(signUrl.value, (image) => {
-          image.top = 400
+        var text = new fabric.Text(today, (image) => {
+          image.top = 10
+          image.left = 10
           image.scaleX = 0.5
           image.scaleY = 0.5
-          canvas.add(image)
         })
+        canvas.add(text)
       })
     }
     const downLoadPdf = () => {

@@ -45,7 +45,6 @@ export default({
       var url = '/test.pdf';
       var pdfjsLib = window['pdfjs-dist/build/pdf']
 
-      // The workerSrc property shall be specified.
       pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js'
       if (document.getElementById('the-canvas')) {
 
@@ -58,10 +57,6 @@ export default({
       var canvas = document.getElementById('the-canvas')
       var ctx = canvas.getContext('2d')
 
-      /**
-       * Get page info from document, resize canvas accordingly, and render page.
-       * @param num Page number.
-       */
       const renderPage = (num) => {
         pageRendering = true
         // Using promise to fetch the page
@@ -70,32 +65,24 @@ export default({
           canvas.height = viewport.height
           canvas.width = viewport.width
 
-          // Render PDF page into canvas context
           var renderContext = {
             canvasContext: ctx,
             viewport: viewport
           }
           var renderTask = page.render(renderContext)
 
-          // Wait for rendering to finish
           renderTask.promise.then(() => {
             pageRendering = false
             if (pageNumPending !== null) {
-              // New page rendering is pending
               renderPage(pageNumPending)
               pageNumPending = null
             }
           })
         })
 
-        // Update page counters
         document.getElementById('page_num').textContent = num
       }
 
-      /**
-       * If another page rendering in progress, waits until the rendering is
-       * finised. Otherwise, executes rendering immediately.
-       */
       const queueRenderPage = (num) => {
         if (pageRendering) {
           pageNumPending = num
@@ -104,9 +91,6 @@ export default({
         }
       }
 
-      /**
-       * Displays previous page.
-       */
       const onPrevPage = () => {
         if (pageNum <= 1) {
           return
@@ -116,9 +100,6 @@ export default({
       }
       document.getElementById('prev').addEventListener('click', onPrevPage)
 
-      /**
-       * Displays next page.
-       */
       const onNextPage = () => {
         if (pageNum >= pdfDoc.numPages) {
           return
@@ -128,14 +109,10 @@ export default({
       }
       document.getElementById('next').addEventListener('click', onNextPage)
 
-      /**
-       * Asynchronously downloads PDF.
-       */
       pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
         pdfDoc = pdfDoc_
         document.getElementById('page_count').textContent = pdfDoc.numPages
 
-        // Initial/first page rendering
         renderPage(pageNum)
       })
       }

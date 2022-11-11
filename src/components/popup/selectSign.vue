@@ -6,8 +6,8 @@
         <div class="px-4 py-6 flex flex-col justify-center w-full">
           <div class="font-bold text-lg mb-8 whitespace-nowrap text-center proj-text-primary">請選擇簽名</div>
           <div class="flex items-center mb-2" v-for="(item, idx) in signArr" :key="idx">
-            <div class="h-auto bg-white w-4/5 rounded-3xl" @click="selectedSign(item)">
-              <img :src="item" class='sign mx-auto object-contain w-36' />
+            <div class="h-auto bg-white w-4/5 rounded-3xl py-2" @click="selectedSign(item)">
+              <img :src="item" class='sign mx-auto object-contain w-36 h-20' />
             </div>
             <a class="p-2 w-1/5 inline-flex justify-center items-center" @click="delecteSign(idx)">
               <img src="@/assets/img/delete.png" alt="">
@@ -43,9 +43,6 @@ export default {
     })
 
     const init = () => {
-      // if (localStorage.getItem('vue-canvas')) {
-      //   url.value = localStorage.getItem('vue-canvas')
-      // }
       if (localStorage.getItem('vue-canvas-array')) {
         signArr.value = JSON.parse(localStorage.getItem('vue-canvas-array'))
       }
@@ -66,9 +63,10 @@ export default {
       console.log(arr)
       if (arr.lngth > 1) {
         arr.splice(idx, 1)
-        localStorage.setItem("vue-canvas-array", JSON.stringify(arr))
+        console.log(arr)
+        // localStorage.setItem("vue-canvas-array", JSON.stringify(arr))
       } else {
-        localStorage.removeItem('vue-canvas-array')
+        // localStorage.removeItem('vue-canvas-array')
       }
       init()
     }

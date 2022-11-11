@@ -24,7 +24,7 @@ const routes = [
 
   // test
   {
-    path: '/VueCanvasDrawing',
+    path: '/test',
     name: 'VueCanvasDrawing',
     component: () => import('../views/TestCanvasDrawing.vue')
   }
