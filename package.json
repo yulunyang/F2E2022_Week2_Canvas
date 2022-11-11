@@ -11,11 +11,12 @@
     "core-js": "^3.8.3",
     "fabric": "^5.2.4",
     "mitt": "^3.0.0",
+    "pdfjs-dist": "^3.0.279",
     "vue": "^3.2.13",
     "vue-drawing-canvas": "^1.0.14",
+    "vue-pdf": "^4.3.0",
     "vue-router": "^4.0.3",
     "vue3-lottie": "^2.4.0",
-    "vue3-pdfjs": "^0.1.6",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

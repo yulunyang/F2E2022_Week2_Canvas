@@ -29,7 +29,7 @@
 import { ref } from 'vue'
 
 export default {
-  name: 'warningAlert_pdf',
+  name: 'selectText',
   components: {
   },
   props: {

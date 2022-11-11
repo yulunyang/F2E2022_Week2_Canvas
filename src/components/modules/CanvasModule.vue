@@ -393,8 +393,17 @@ export default {
       this.y = coordinates.y
     },
     getStrokes () {
-      window.localStorage.setItem("vue-drawing-canvas", JSON.stringify(this.$refs.VueCanvasDrawing.getAllStrokes()))
-      window.localStorage.setItem("vue-canvas", this.image)
+      localStorage.setItem("vue-drawing-canvas", JSON.stringify(this.$refs.VueCanvasDrawing.getAllStrokes()))
+      localStorage.setItem("vue-canvas", this.image)
+
+      let signArr
+      if (localStorage.getItem('vue-canvas-array')) {
+        signArr = JSON.parse(localStorage.getItem('vue-canvas-array'))
+        signArr.push(this.image)
+      } else {
+        signArr = [this.image]
+      }
+      localStorage.setItem("vue-canvas-array", JSON.stringify(signArr))
 
       this.$emit('setStep', 1)
 

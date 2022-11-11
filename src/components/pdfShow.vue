@@ -26,8 +26,6 @@
       </div>
     </div>
 
-    <!-- <img :src="signUrl" class='sign' style='border: 1px solid #000' width='250' height='150' /> -->
-
     <div class="styledCreate__WrapperRight-sc-1i4fuzv-10 cKAFxH">
       <div id="viewer" tabindex="10" scale="1" class="styled__Wrapper-sc-cpx59f-1 gKmbon overflow-x-hidden">
         <div class="react-pdf__Document">
@@ -46,7 +44,7 @@
           <div class="w-7/12 hidden xl:flex justify-end items-center bg-white">
             <div class="flex items-center mx-2 item py-2 px-3 justify-between">
               <div>
-                <div><img src="@/assets/img/arrowLeft.png" alt=""></div>
+                <a class="cursor-pointer inline-block"><img src="@/assets/img/arrowLeft.png" alt=""></a>
               </div>
               <div class="px-3 flex items-center">
                 <p class="p-3">1</p>
@@ -54,18 +52,18 @@
                 <p class="p-3">2</p>
               </div>
               <div>
-                <div><img src="@/assets/img/arrowRight.png" alt=""></div>
+                <a class="cursor-pointer inline-block"><img src="@/assets/img/arrowRight.png" alt=""></a>
               </div>
             </div>
             <div class="flex items-center mx-2 item py-2 px-3 justify-between">
               <div>
-                <div><img src="@/assets/img/Union1.png" alt=""></div>
+                <a class="cursor-pointer inline-block"><img src="@/assets/img/Union1.png" alt=""></a>
               </div>
               <div class="px-3 flex items-center">
                 <p class="p-3">100%</p>
               </div>
               <div>
-                <div><img src="@/assets/img/Union2.png" alt=""></div>
+                <a class="cursor-pointer inline-block"><img src="@/assets/img/Union2.png" alt=""></a>
               </div>
             </div>
           </div>
@@ -124,7 +122,7 @@ export default {
   setup (props, ctx) {
     const signUrl = ref('')
     const isMountedAlert = ref(false)
-    const isSelectSign = ref(false)
+    const isSelectSign = ref(true)
     const isTextSign = ref(false)
     const isSelectText = ref(false)
     const percentWidth = ref('100%')
@@ -192,6 +190,7 @@ export default {
       }
 
       const pdfToImage = async(pdfData) => {
+        // const scale = 1 / window.devicePixelRatio
         const scale = 1 / window.devicePixelRatio
         return new fabric.Image(pdfData, {
           scaleX: scale,

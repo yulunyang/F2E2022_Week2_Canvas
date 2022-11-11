@@ -9,7 +9,7 @@
 
     <Upload v-show="step === 0" @nextStep="nextStep" @showWarning="isFileOverAlert"  />
     <Sign v-show="step === 1" @setStep2="setStep2" />
-    <pdfShow v-show="step === 2" @finishSign="finishSign" />
+    <PdfShow v-show="step === 2" @finishSign="finishSign" />
     <DownloadStatus v-show="step === 3" @backIndex="backIndex" />
   </div>
 </template>
@@ -23,7 +23,7 @@ import LoadingSignModule from '@/components/modules/LoadingSignModule.vue'
 import WarningAlert from '@/components/modules/warningAlert.vue'
 import Upload from '@/components/Upload.vue'
 import Sign from '@/components/Sign.vue'
-import pdfShow from '@/components/pdfShow.vue'
+import PdfShow from '@/components/pdfShow.vue'
 import DownloadStatus from '@/components/downloadStatus.vue'
 import { onMounted, ref } from 'vue'
 
@@ -35,7 +35,7 @@ export default {
     LoadingSignModule,
     Sign,
     Upload,
-    pdfShow,
+    PdfShow,
     DownloadStatus,
     WarningAlert
   },
