@@ -16,7 +16,11 @@ const routes = [
     name: 'records',
     component: () => import('../views/Records.vue')
   },
-
+  {
+    path: '/pdfViewer',
+    name: 'PdfListHistory',
+    component: () => import('../views/PdfListHistory.vue')
+  },
   // test
   {
     path: '/VueCanvasDrawing',
