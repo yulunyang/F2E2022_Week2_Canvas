@@ -17,10 +17,11 @@ const routes = [
     component: () => import('../views/Records.vue')
   },
   {
-    path: '/pdfViewer',
+    path: '/pdfViewer/:id',
     name: 'PdfListHistory',
     component: () => import('../views/PdfListHistory.vue')
   },
+
   // test
   {
     path: '/VueCanvasDrawing',

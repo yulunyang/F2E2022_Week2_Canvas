@@ -17,7 +17,7 @@
       <div class="mb-5">
         <h6 class="mb-3 font-semibold">2022</h6>
         <div class="flex flex-wrap w-full">
-          <router-link :to="{ name: 'PdfListHistory' }" class="bg-white p-3 py-6 shadow-lg w-full flex justify-between mb-3 rounded-lg cursor-pointer" v-for="(item, idx) in filtered2022" :key="idx">
+          <router-link :to="{ name: 'PdfListHistory', params: { id: item.id } }" class="bg-white p-3 py-6 shadow-lg w-full flex justify-between mb-3 rounded-lg cursor-pointer" v-for="(item, idx) in filtered2022" :key="idx">
             <div class="flex-1">
               <p class="single-ellipsis title">
                 <span class="mr-3">{{ returnDate(item.created_at) }}</span>
@@ -31,10 +31,9 @@
       <div>
         <h6 class="mb-3 font-semibold">2021</h6>
         <div class="flex flex-wrap w-full">
-          <router-link :to="{ name: 'PdfListHistory' }" class="bg-white p-3 py-6 shadow-lg w-full flex justify-between mb-3 rounded-lg cursor-pointer" v-for="(item, idx) in filtered2021" :key="idx">
+          <router-link :to="{ name: 'PdfListHistory', params: { id: item.id } }" class="bg-white p-3 py-6 shadow-lg w-full flex justify-between mb-3 rounded-lg cursor-pointer" v-for="(item, idx) in filtered2021" :key="idx">
             <div class="flex-1">
               <p class="single-ellipsis title">
-                <!-- <span class="mr-3">{{ moment(item.created_at).format('MM-DD') }}</span> -->
                 <span class="mr-3">{{ returnDate(item.created_at) }}</span>
                 <span class="proj-text-Gradient">{{ item.name }}</span>
               </p>
@@ -56,13 +55,6 @@ export default {
   name: 'List',
   setup () {
     const router = useRouter()
-    // const qaData0 = reactive([
-    //   { id: 1001, el: '2021-10-20', name: '2022年平面醫用口罩定額徵收調查意願書', fileUrl: '/Test.paragraph.pdf' },
-    //   { id: 1002, created_at: '2021-10-21', name: '2022年平面醫用口罩定額徵收調查意願書', fileUrl: '/Test.paragraph.pdf' },
-    //   { id: 1003, created_at: '2022-10-22', name: '2022年平面醫用口罩定額徵收調查意願書', fileUrl: '/Test.paragraph.pdf' },
-    //   { id: 1004, created_at: '2022-10-22', name: '2022年平面醫用口罩定額徵收調查意願書', fileUrl: '/Test.paragraph.pdf' },
-    //   { id: 1005, created_at: '2022-10-22', name: '2022年平面醫用口罩定額徵收調查意願書', fileUrl: '/Test.paragraph.pdf' }
-    // ])
 
     const qaData1 = ref('')
     onMounted(() => {
