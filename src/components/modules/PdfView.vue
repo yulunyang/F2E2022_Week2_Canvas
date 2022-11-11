@@ -2,7 +2,7 @@
 <template>
   <canvas id="the-canvas" class="w-full"></canvas>
   <!-- footer -->
-  <div class="footer fixed bottom-3 xl:bottom-5 left-1/2 z-50 -translate-x-1/2">
+  <div class="records-footer fixed bottom-3 xl:bottom-5 left-1/2 z-50 -translate-x-1/2">
     <div class="p-3 xl:p-0 ">
       <div class="mr-auto flex w-full">
         <div class="justify-end items-center viewer-bg">

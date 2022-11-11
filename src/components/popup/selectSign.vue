@@ -42,7 +42,7 @@
             </div>
           </div>
 
-          <CanvasModulePop :isSignSelf="isSignSelf" />
+          <CanvasModulePop :isSignSelf="isSignSelf" v-on:closeWarning="closeWarning" />
 
         </div>
       </div>

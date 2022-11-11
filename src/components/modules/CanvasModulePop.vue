@@ -182,17 +182,17 @@ export default {
           height: 300,
         }
       }
-      console.log(this.$refs.VueCanvasDrawing)
-      // await self.$refs.VueCanvasDrawing.redraw()
+      console.log(self.$refs.VueCanvasDrawingPop)
+      await self.$refs.VueCanvasDrawingPop.redraw()
       self.isFile = true
     },
     getCoordinate (event) {
-      let coordinates = this.$refs.VueCanvasDrawing.getCoordinates(event)
+      let coordinates = this.$refs.VueCanvasDrawingPop.getCoordinates(event)
       this.x = coordinates.x
       this.y = coordinates.y
     },
     getStrokes () {
-      localStorage.setItem("vue-drawing-canvas", JSON.stringify(this.$refs.VueCanvasDrawing.getAllStrokes()))
+      localStorage.setItem("vue-drawing-canvas", JSON.stringify(this.$refs.VueCanvasDrawingPop.getAllStrokes()))
       localStorage.setItem("vue-canvas", this.image)
 
       let signArr
@@ -209,7 +209,7 @@ export default {
     removeSavedStrokes() {
       window.localStorage.removeItem("vue-drawing-canvas")
 
-      this.$refs.VueCanvasDrawing.reset()
+      this.$refs.VueCanvasDrawingPop.reset()
     },
     setColor (color) {
       this.color = color
