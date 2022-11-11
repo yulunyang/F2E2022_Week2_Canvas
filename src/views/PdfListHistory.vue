@@ -15,8 +15,9 @@
   <!-- header -->
 
   <div class="min-h-screen pdfViewer">
-
-
+    <div class="max-w-4xl mx-auto">
+      <PdfView />
+    </div>
   </div>
 
   <!-- footer -->
@@ -47,11 +48,11 @@
 </template>
 
 <script>
-// import HeaderSection from '@/components/modules/headerSection.vue'
+import PdfView from '@/components/modules/PdfView.vue'
 export default {
   name: "ServeDev",
   components: {
-    // HeaderSection
+    PdfView
   },
   data () {
     return {

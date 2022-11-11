@@ -2703,7 +2703,7 @@
   "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001425.tgz"
   "version" "1.0.30001425"
 
-"canvas@^2.10.1", "canvas@^2.5.0", "canvas@^2.8.0":
+"canvas@^2.5.0", "canvas@^2.8.0":
   "integrity" "sha512-29pIjn9uwTUsIgJUNd7GXxKk8sg4iyJwLm1wIilNIqX1mVzXSc2nUij9exW1LqNpis1d2ebMYfMqTWcokZ4pdA=="
   "resolved" "https://registry.npmjs.org/canvas/-/canvas-2.10.1.tgz"
   "version" "2.10.1"
@@ -5698,6 +5698,11 @@
     "stream-each" "^1.1.0"
     "through2" "^2.0.0"
 
+"mitt@^2.1.0":
+  "integrity" "sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg=="
+  "resolved" "https://registry.npmjs.org/mitt/-/mitt-2.1.0.tgz"
+  "version" "2.1.0"
+
 "mitt@^3.0.0":
   "integrity" "sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ=="
   "resolved" "https://registry.npmjs.org/mitt/-/mitt-3.0.0.tgz"
@@ -6307,18 +6312,15 @@
     "safe-buffer" "^5.0.1"
     "sha.js" "^2.4.8"
 
-"pdfjs-dist@^3.0.279":
-  "integrity" "sha512-YDwYiPi8wqlYDC4QF0JsXSJH1E+vn7UAc5hSNPkuF4HYkPAiNFBkEsK9pWzM2iinVNQJIztmtfLDg1B17jKtJA=="
-  "resolved" "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-3.0.279.tgz"
-  "version" "3.0.279"
-  dependencies:
-    "canvas" "^2.10.1"
-    "web-streams-polyfill" "^3.2.1"
+"pdfjs-dist-sig@^2.6.4":
+  "integrity" "sha512-daIzGmmygc8KWw9FTKXydpHyHldkoK3wLItwNnIRQPcwBrjQwf4u22j6/fpGbCXwSpGK9ZvHlv4pHFYkuFpgjQ=="
+  "resolved" "https://registry.npmjs.org/pdfjs-dist-sig/-/pdfjs-dist-sig-2.6.4.tgz"
+  "version" "2.6.4"
 
-"pdfjs-dist@2.6.347":
-  "integrity" "sha512-QC+h7hG2su9v/nU1wEI3SnpPIrqJODL7GTDFvR74ANKGq1AFJW16PH8VWnhpiTi9YcLSFV9xLeWSgq+ckHLdVQ=="
-  "resolved" "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-2.6.347.tgz"
-  "version" "2.6.347"
+"pdfjs-dist@^2.5.207", "pdfjs-dist@^2.7.570":
+  "integrity" "sha512-/ZkA1FwkEOyDaq11JhMLazdwQAA0F9uwrP7h/1L9Akt9KWh1G5/tkzS+bPuUELq2s2GDFnaT+kooN/aSjT7DXQ=="
+  "resolved" "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-2.7.570.tgz"
+  "version" "2.7.570"
 
 "picocolors@^0.2.1":
   "integrity" "sha512-cMlDqaLEqfSaW8Z7N5Jw+lyIW869EzT73/F5lhtY9cLGoVxSXznfgfXMO0Z5K0o0Q2TkTXq+0KFsdnSe3jDViA=="
@@ -6857,7 +6859,7 @@
     "iconv-lite" "0.4.24"
     "unpipe" "1.0.0"
 
-"raw-loader@^4.0.2":
+"raw-loader@^4.0.1":
   "integrity" "sha512-ZnScIV3ag9A4wPX/ZayxL/jZH+euYb6FcUinPcgiQW0+UBtEv0O6Q3lGd3cqJ+GHH+rksEv3Pj99oxJ3u3VIKA=="
   "resolved" "https://registry.npmjs.org/raw-loader/-/raw-loader-4.0.2.tgz"
   "version" "4.0.2"
@@ -8421,15 +8423,15 @@
     "hash-sum" "^2.0.0"
     "loader-utils" "^2.0.0"
 
-"vue-pdf@^4.3.0":
-  "integrity" "sha512-zd3lJj6CbtrawgaaDDciTDjkJMUKiLWtbEmBg5CvFn9Noe9oAO/GNy/fc5c59qGuFCJ14ibIV1baw4S07e5bSQ=="
-  "resolved" "https://registry.npmjs.org/vue-pdf/-/vue-pdf-4.3.0.tgz"
-  "version" "4.3.0"
+"vue-pdf@^4.2.0":
+  "integrity" "sha512-GpAbZfM48Hom1R8f4XL5ZzoVBLlbyy+4z0VYmTQORVOSieVIIu+XtnNl0RY6EXg60Qni6T6nIgrmsCcCkWv39A=="
+  "resolved" "https://registry.npmjs.org/vue-pdf/-/vue-pdf-4.2.0.tgz"
+  "version" "4.2.0"
   dependencies:
     "babel-plugin-syntax-dynamic-import" "^6.18.0"
     "loader-utils" "^1.4.0"
-    "pdfjs-dist" "2.6.347"
-    "raw-loader" "^4.0.2"
+    "pdfjs-dist" "^2.5.207"
+    "raw-loader" "^4.0.1"
     "vue-resize-sensor" "^2.0.0"
     "worker-loader" "^2.0.0"
 
@@ -8476,6 +8478,24 @@
   dependencies:
     "lodash" "^4.17.21"
     "lottie-web" "^5.8.1"
+
+"vue3-pdf@^4.2.6":
+  "integrity" "sha512-TiFpIe+QFrWJezOKDX3Nzdia9BXhkOtBAhy70volKckQHQLDsUQnrdLwzFXbX/I4RsXNLSykU9EBwEC+XUJWuw=="
+  "resolved" "https://registry.npmjs.org/vue3-pdf/-/vue3-pdf-4.2.6.tgz"
+  "version" "4.2.6"
+  dependencies:
+    "babel-plugin-syntax-dynamic-import" "^6.18.0"
+    "loader-utils" "^1.4.0"
+    "mitt" "^2.1.0"
+    "pdfjs-dist-sig" "^2.6.4"
+    "raw-loader" "^4.0.1"
+    "vue3-resize-sensor" "^2.0.2"
+    "worker-loader" "^2.0.0"
+
+"vue3-resize-sensor@^2.0.2":
+  "integrity" "sha512-Zli2znouPjV0coIlLxSuqHx3j2aqD4BuI2ngkGpZjU6YosdjDXXjpd3P9WBD/nC148Y/zaJsIK4qQdusdhNVGg=="
+  "resolved" "https://registry.npmjs.org/vue3-resize-sensor/-/vue3-resize-sensor-2.0.2.tgz"
+  "version" "2.0.2"
 
 "vuex@^4.0.0":
   "integrity" "sha512-hmV6UerDrPcgbSy9ORAtNXDr9M4wlNP4pEFKye4ujJF8oqgFFuxDCdOLS3eNoRTtq5O3hoBDh9Doj1bQMYHRbQ=="
@@ -8537,11 +8557,6 @@
   "version" "1.0.1"
   dependencies:
     "defaults" "^1.0.3"
-
-"web-streams-polyfill@^3.2.1":
-  "integrity" "sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q=="
-  "resolved" "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz"
-  "version" "3.2.1"
 
 "webidl-conversions@^3.0.0":
   "integrity" "sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ=="
@@ -8807,6 +8822,14 @@
   dependencies:
     "loader-utils" "^1.0.0"
     "schema-utils" "^0.4.0"
+
+"worker-loader@^3.0.7":
+  "integrity" "sha512-XQyQkIFeRVC7f7uRhFdNMe/iJOdO6zxAaR3EWbDp45v3mDhrTi+++oswKNxShUNjPC/1xUp5DB29YKLhFo129g=="
+  "resolved" "https://registry.npmjs.org/worker-loader/-/worker-loader-3.0.8.tgz"
+  "version" "3.0.8"
+  dependencies:
+    "loader-utils" "^2.0.0"
+    "schema-utils" "^3.0.0"
 
 "wrap-ansi@^3.0.1":
   "integrity" "sha512-iXR3tDXpbnTpzjKSylUJRkLuOrEC7hwEB221cgn6wtF8wpmz28puFXAEfPT5zrjM3wahygB//VuWEr1vTkDcNQ=="

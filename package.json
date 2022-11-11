@@ -12,12 +12,13 @@
     "fabric": "^5.2.4",
     "mitt": "^3.0.0",
     "moment": "^2.29.4",
-    "pdfjs-dist": "^3.0.279",
+    "pdfjs-dist": "^2.7.570",
     "vue": "^3.2.13",
     "vue-drawing-canvas": "^1.0.14",
-    "vue-pdf": "^4.3.0",
+    "vue-pdf": "^4.2.0",
     "vue-router": "^4.0.3",
     "vue3-lottie": "^2.4.0",
+    "vue3-pdf": "^4.2.6",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
