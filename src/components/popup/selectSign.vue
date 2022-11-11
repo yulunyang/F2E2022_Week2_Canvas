@@ -1,7 +1,7 @@
 <template>
   <div class="warningAlert_pdf w-full h-screen left-0 top-0 fixed">
     <div class="select_bg absolute h-screen w-screen left-0 top-0" @click="closeWarning"></div>
-    <div class="loading-text absolute text-xl max-w-md w-full z-50">
+    <div class="card-inner absolute text-xl max-w-md w-full z-50" v-if="isSelectMode">
       <div class="bg rounded-3xl overflow-hidden shadow-lg w-full">
         <div class="px-4 py-6 flex flex-col justify-center w-full">
           <div class="font-bold text-lg mb-8 whitespace-nowrap text-center proj-text-primary">請選擇簽名</div>
@@ -18,22 +18,52 @@
 
       </div>
     </div>
+    <div class="card-inner absolute text-xl max-w-2xl w-full z-50" v-if="!isSelectMode">
+      <div class="bg rounded-3xl overflow-hidden shadow-lg w-full">
+
+        <div class="index_Sign flex flex-col items-center w-full py-4">
+
+          <div class="container-pop mx-auto mb-5">
+            <div class="inner-container">
+              <div class="toggle" @click="isSignSelf = false">
+                <p>匯入簽名檔</p>
+              </div>
+              <div class="toggle" @click="isSignSelf = true">
+                <p>手寫簽名</p>
+              </div>
+            </div>
+            <div class="inner-container" id='toggle-container' :class="{ 'toggle-active': !isSignSelf }">
+              <div class="toggle" @click="isSignSelf = false">
+                <p>匯入簽名檔</p>
+              </div>
+              <div class="toggle" @click="isSignSelf = true">
+                <p>手寫簽名</p>
+              </div>
+            </div>
+          </div>
+
+          <CanvasModulePop :isSignSelf="isSignSelf" />
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { onMounted, onUnmounted, ref } from 'vue'
-
+import CanvasModulePop from '@/components/modules/CanvasModulePop.vue'
 export default {
   name: 'selectSign',
   components: {
+    CanvasModulePop
   },
   props: {
   },
   setup (props, ctx) {
-
-    // const url = ref('')
     const signArr = ref('')
+    const isSelectMode = ref(false)
+    const isSignSelf = ref(true)
 
     onMounted(() => {
       init()
@@ -61,13 +91,17 @@ export default {
     const delecteSign = (idx) => {
       let arr = JSON.parse(localStorage.getItem('vue-canvas-array'))
       console.log(arr)
-      if (arr.lngth > 1) {
+      console.log(idx)
+      console.log(arr.length)
+      if (arr.length > 1) {
         arr.splice(idx, 1)
         console.log(arr)
-        // localStorage.setItem("vue-canvas-array", JSON.stringify(arr))
+        localStorage.setItem("vue-canvas-array", JSON.stringify(arr))
       } else {
-        // localStorage.removeItem('vue-canvas-array')
+        localStorage.removeItem('vue-canvas-array')
       }
+
+
       init()
     }
     return {
@@ -76,7 +110,9 @@ export default {
       closeWarning,
       selectedSign,
       delecteSign,
-      init
+      init,
+      isSelectMode,
+      isSignSelf
     }
   }
 }
@@ -86,18 +122,71 @@ export default {
 .warningAlert_pdf {
   // background: rgba(186, 186, 186, 0.47);
   // backdrop-filter: blur(2.5px);
-  z-index: 10;
+  z-index: 99;
 }
 .select_bg {
   background: rgba(186, 186, 186, 0.47);
   backdrop-filter: blur(2.5px);
 }
-.loading-text {
+.card-inner {
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
 }
 .bg {
   background: #F0F0F0;
+}
+
+.container-pop {
+	width: 240px;
+	height: 40px;
+	// margin: auto;
+	position: relative;
+	border-radius: 6px;
+	overflow: hidden;
+	user-select: none;
+	cursor: pointer;
+}
+
+.inner-container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: inherit;
+	height: inherit;
+	text-transform: uppercase;
+	// font-size: .6em;
+	// letter-spacing: .2em;
+}
+
+.inner-container:first-child {
+	background: #ffffff;
+	color: #a9a9a9;
+}
+
+.inner-container:nth-child(2) {
+  background: linear-gradient(180deg, #35A483 0%, #077854 100%);
+	color: white;
+	clip-path: inset(0 50% 0 0);
+	transition: .3s cubic-bezier(0,0,0,1);
+}
+
+.toggle {
+	width: 50%;
+	position: absolute;
+	height: inherit;
+	display: flex;
+	box-sizing: border-box;
+}
+
+.toggle p {
+	margin: auto;
+}
+
+.toggle:nth-child(1) {
+	right: 0;
+}
+.toggle-active {
+  clip-path: inset(0 0% 0% 50%) !important;
 }
 </style>

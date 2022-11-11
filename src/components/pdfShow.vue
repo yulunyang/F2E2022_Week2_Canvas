@@ -5,19 +5,19 @@
     <selectText v-if="isSelectText" @closeWarning="closeWarning" @selectedText="selectedText"  />
     <div class="header-top fixed top-0 left-0 w-full flex p-2 xl:hidden z-50">
       <div class="w-9/12 p-2">
-          <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-3xl">
-            <div>
-              <div><img src="@/assets/img/arrowLeft.png" alt=""></div>
-            </div>
-            <div class="px-3 flex items-center">
-              <p class="p-3">1</p>
-              <span class="px-1">/</span>
-              <p class="p-3">2</p>
-            </div>
-            <div>
-              <div><img src="@/assets/img/arrowRight.png" alt=""></div>
-            </div>
+        <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-3xl">
+          <!-- <div> -->
+            <a class="prePage-btn"><img src="@/assets/img/arrowLeft.png" alt=""></a>
+          <!-- </div> -->
+          <div class="px-3 flex items-center">
+            <p class="p-3"><span id="page_num"></span></p>
+            <span class="px-1">/</span>
+            <p class="p-3"><span id="page_count">{{ pageCount }}</span></p>
           </div>
+          <!-- <div> -->
+            <a class="nextPage-btn"><img src="@/assets/img/arrowRight.png" alt=""></a>
+          <!-- </div> -->
+        </div>
       </div>
       <div class="w-3/12 md:p-2 flex justify-center items-center">
         <button type="button" class="downloadBtn py-4 w-full proj-bg-Gradient text-white rounded-3xl proj-border-primary border-2 h-auto" @click="finishSign">
@@ -43,17 +43,17 @@
         <div class="mr-auto flex w-full">
           <div class="w-7/12 hidden xl:flex justify-end items-center bg-white">
             <div class="flex items-center mx-2 item py-2 px-3 justify-between">
-              <div>
-                <a class="cursor-pointer inline-block"><img src="@/assets/img/arrowLeft.png" alt=""></a>
-              </div>
+              <!-- <div> -->
+                <a class="cursor-pointer inline-block prePage-btn"><img src="@/assets/img/arrowLeft.png" alt=""></a>
+              <!-- </div> -->
               <div class="px-3 flex items-center">
-                <p class="p-3">1</p>
+                <p class="p-3"><span id="page_num">1</span></p>
                 <span class="px-1">/</span>
-                <p class="p-3">2</p>
+                <p class="p-3"><span id="page_count">{{ pageCount }}</span></p>
               </div>
-              <div>
-                <a class="cursor-pointer inline-block"><img src="@/assets/img/arrowRight.png" alt=""></a>
-              </div>
+              <!-- <div> -->
+                <a class="cursor-pointer inline-block nextPage-btn"><img src="@/assets/img/arrowRight.png" alt=""></a>
+              <!-- </div> -->
             </div>
             <div class="flex items-center mx-2 item py-2 px-3 justify-between">
               <div>
@@ -111,6 +111,7 @@ import WarningAlert from '@/components/modules/warningAlert_pdf.vue'
 import SelectSign from '@/components/popup/selectSign.vue'
 import selectText from '@/components/popup/selectText.vue'
 import bus from '@/bus'
+import  * as moment  from "moment"
 export default {
   name: 'pdfShow',
   components: {
@@ -121,12 +122,18 @@ export default {
   setup (props, ctx) {
     const signUrl = ref('')
     const isMountedAlert = ref(false)
-    const isSelectSign = ref(false)
+    const isSelectSign = ref(true)
     const isTextSign = ref(false)
     const isSelectText = ref(false)
     const percentWidth = ref('100%')
     const isSuccess = ref(true)
+    const pageNum = ref(1)
+    const pageCount = ref(1)
 
+    const Base64Prefix = 'data:application/pdf;base64,'
+    const add = document.querySelector('.add')
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
+    const canvas = new fabric.Canvas('canvas')
     // const store = useStore()
     bus.on('fileUpload', (v) => {
       pdfInit(v)
@@ -143,9 +150,9 @@ export default {
     })
 
     const pdfInit = (file) => {
-      const Base64Prefix = 'data:application/pdf;base64,'
-      const add = document.querySelector('.add')
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
+      // const Base64Prefix = 'data:application/pdf;base64,'
+      // const add = document.querySelector('.add')
+      // pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
 
       const readBlob = (blob) => {
         return new Promise((resolve, reject) => {
@@ -161,7 +168,11 @@ export default {
         const data = atob(pdfData.substring(Base64Prefix.length))
 
         const pdfDoc = await pdfjsLib.getDocument({ data }).promise
+
         const pdfPage = await pdfDoc.getPage(1)
+        pageCount.value = pdfDoc.numPages
+        // console.log(pdfDoc)
+        // console.log(pdfPage)
 
         // const viewport = pdfPage.getViewport({ scale: window.devicePixelRatio })
         const viewport = pdfPage.getViewport({ scale: 1 })
@@ -175,8 +186,6 @@ export default {
           canvasContext: context,
           viewport
         }
-        console.log(window.devicePixelRatio)
-        console.log(viewport)
         const renderTask = pdfPage.render(renderContext)
 
         // 回傳做好的canvas
@@ -192,7 +201,7 @@ export default {
         })
       }
 
-      const canvas = new fabric.Canvas('canvas')
+      // const canvas = new fabric.Canvas('canvas')
 
       const Init = async () => {
         canvas.requestRenderAll()
@@ -238,6 +247,20 @@ export default {
         })
         canvas.add(text)
       })
+
+      // 前一頁
+      const prePageBtn = document.querySelector('.prePage-btn')
+      prePageBtn.addEventListener('click', () => {
+
+        // canvas.add(text)
+      })
+      // 下一頁
+      const nextPageBtn = document.querySelector('.nextPage-btn')
+      prePageBtn.addEventListener('click', () => {
+
+        // canvas.add(text)
+      })
+
     }
     const downLoadPdf = () => {
       const pdf = new jsPDF()
@@ -300,8 +323,6 @@ export default {
       canvas.add(text)
     }
 
-    const perPage = () => {}
-    const nextPage = () => {}
     const percentPlus = () => {}
     const percentMinus = () => {}
 
@@ -318,11 +339,13 @@ export default {
       isSelectText,
       selectedText,
       selectedDate,
-      perPage,
-      nextPage,
+      // perPage,
+      // nextPage,
       percentPlus,
       percentMinus,
-      isSuccess
+      isSuccess,
+      pageNum,
+      pageCount
     }
   }
 }
@@ -366,9 +389,11 @@ export default {
   }
   .cFGXRm {
       position: relative;
-      max-width: 100%;
-      width: 1101.6px;
-      height: 1425.6px;
+      width: 50vw;
+      @media (max-width: 1024px) {
+        width: 95vw;
+      }
+      min-height: 80vh;
       background-color: white;
       margin: 0px auto 20px;
   }
@@ -388,6 +413,15 @@ export default {
 // canvas {
 //   width: 100% !important;
 // }
+  .prePage-btn {
+    width: 30px;
+    height: 30px;
+
+  }
+  .nextPage-btn {
+    width: 30px;
+    height: 30px;
+  }
 .footer {
   box-shadow: 1px -1px 6px rgba(0, 0, 0, 0.11);
   @media (max-width: 1023px) {

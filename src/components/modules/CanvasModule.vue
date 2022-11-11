@@ -12,29 +12,31 @@
       </a>
     </div>
     <div class="source" v-show="isSignSelf">
-      <vue-drawing-canvas
-        ref="VueCanvasDrawing"
-        v-model:image="image"
-        :width="600"
-        :height="400"
-        :stroke-type="strokeType"
-        :line-cap="lineCap"
-        :line-join="lineJoin"
-        :fill-shape="fillShape"
-        :eraser="eraser"
-        :lineWidth="line"
-        :color="color"
-        :background-color="backgroundColor"
-        :background-image="backgroundImage"
-        :watermark="watermark"
-        :initial-image="initialImage"
-        saveAs="png"
-        :styles="{
-          'border-radius': '26px',
-        }"
-        :lock="disabled"
-        :additional-images="additionalImages"
-      />
+      <div class="bg-white rounded-3xl">
+        <vue-drawing-canvas
+          ref="VueCanvasDrawing"
+          v-model:image="image"
+          :width="600"
+          :height="400"
+          :stroke-type="strokeType"
+          :line-cap="lineCap"
+          :line-join="lineJoin"
+          :fill-shape="fillShape"
+          :eraser="eraser"
+          :lineWidth="line"
+          :color="color"
+          :background-color="backgroundColor"
+          :background-image="backgroundImage"
+          :watermark="watermark"
+          :initial-image="initialImage"
+          saveAs="png"
+          :styles="{
+            'border-radius': '26px',
+          }"
+          :lock="disabled"
+          :additional-images="additionalImages"
+        />
+      </div>
       <!-- @mousemove="getCoordinate($event)" -->
       <!-- <p>
         x-axis: <strong>{{ x }}</strong
@@ -334,7 +336,7 @@ export default {
       strokeType: "dash",
       lineCap: "square",
       lineJoin: "miter",
-      backgroundColor: "#FFFFFF",
+      backgroundColor: "transparent",
       backgroundImage: null,
       watermark: null,
       additionalImages: [],

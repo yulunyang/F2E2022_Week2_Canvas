@@ -1,33 +1,28 @@
 <!-- eslint-disable vue/require-prop-type-constructor -->
 <template>
-<!-- <div>
-  <button id="prev">Previous</button>
-  <button id="next">Next</button>
-  &nbsp; &nbsp;
-  <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-</div> -->
-
-<canvas id="the-canvas" class="w-full"></canvas>
-<!-- footer -->
-<div class="footer fixed bottom-3 xl:bottom-5 left-1/2 z-50 -translate-x-1/2">
-  <div class="p-3 xl:p-0 ">
-    <div class="mr-auto flex w-full">
-      <div class="justify-end items-center viewer-bg">
-        <div class="flex items-center mx-2 item py-2 px-3 justify-between">
-          <a class="cursor-pointer block prePage-btn" id="prev"><img src="@/assets/img/arrowLeft.png" alt="" class="block object-contain"></a>
-          <div class="px-3 flex items-center">
-            <p class="p-3"><span id="page_num"></span></p>
-            <span class="px-1">/</span>
-            <p class="p-3"><span id="page_count"></span></p>
-          </div>
-          <div>
-          <a class="cursor-pointer block nextPage-btn" id="next"><img src="@/assets/img/arrowRight.png" alt="" class="block object-contain"></a>
+  <canvas id="the-canvas" class="w-full"></canvas>
+  <!-- footer -->
+  <div class="footer fixed bottom-3 xl:bottom-5 left-1/2 z-50 -translate-x-1/2">
+    <div class="p-3 xl:p-0 ">
+      <div class="mr-auto flex w-full">
+        <div class="justify-end items-center viewer-bg">
+          <div class="flex items-center mx-2 item py-2 px-3 justify-between">
+            <a class="cursor-pointer block prePage-btn" id="prev"><img src="@/assets/img/arrowLeft.png" alt="" class="block object-contain"></a>
+            <div class="px-3 flex items-center">
+              <p class="p-3"><span id="page_num"></span></p>
+              <span class="px-1">/</span>
+              <p class="p-3"><span id="page_count"></span></p>
+            </div>
+            <div>
+              <a class="cursor-pointer block nextPage-btn" id="next">
+                <img src="@/assets/img/arrowRight.png" alt="" class="block object-contain">
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 <!-- footer -->
 </template>
 
@@ -128,8 +123,8 @@ export default({
     border-radius: 16px;
   }
   .prePage-btn {
-  width: 30px;
-  height: 30px;
+    width: 30px;
+    height: 30px;
 
   }
   .nextPage-btn {
