@@ -30,9 +30,9 @@ export default {
   props: {
   },
   setup (props, ctx) {
-    const isSuccess = ref(false)
+    const isSuccess = ref(true)
     onMounted(() => {
-      random()
+      // random()
     })
     onUnmounted(() => {
     })

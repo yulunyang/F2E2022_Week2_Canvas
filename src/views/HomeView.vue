@@ -26,7 +26,7 @@ import Sign from '@/components/Sign.vue'
 import PdfShow from '@/components/pdfShow.vue'
 import DownloadStatus from '@/components/downloadStatus.vue'
 import { onMounted, ref } from 'vue'
-
+import { onBeforeRouteLeave } from 'vue-router'
 export default {
   name: 'HomeView',
   components: {
@@ -45,11 +45,18 @@ export default {
     const isLeaving = ref(false)
     const isWarning = ref(false)
     const isWarningText = ref('')
-    const step = ref(2)
+    const step = ref(0)
     const timer = ref(null)
     onMounted(() => {
     })
-
+    onBeforeRouteLeave((to, from) => {
+      if (step.value === 2) {
+        const answer = window.confirm(
+          'Do you really want to leave? you have unsaved changes!'
+        )
+        if (!answer) return false
+      }
+    })
     const isFileOverAlert = (isFileOverAlert) => {
       isWarning.value = true
       isWarningText.value = isFileOverAlert

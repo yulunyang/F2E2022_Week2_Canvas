@@ -11,6 +11,7 @@
     "core-js": "^3.8.3",
     "fabric": "^5.2.4",
     "mitt": "^3.0.0",
+    "moment": "^2.29.4",
     "pdfjs-dist": "^3.0.279",
     "vue": "^3.2.13",
     "vue-drawing-canvas": "^1.0.14",

@@ -62,7 +62,6 @@ export default {
     }
 
     const delecteSign = (idx) => {
-      console.log(idx)
       let arr = JSON.parse(localStorage.getItem('vue-canvas-array'))
       console.log(arr)
       if (arr.lngth > 1) {

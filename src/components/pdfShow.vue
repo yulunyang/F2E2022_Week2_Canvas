@@ -107,7 +107,6 @@
 <script>
 /* eslint-disable */
 import { onMounted, ref, reactive } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
 import WarningAlert from '@/components/modules/warningAlert_pdf.vue'
 import SelectSign from '@/components/popup/selectSign.vue'
 import selectText from '@/components/popup/selectText.vue'
@@ -126,6 +125,7 @@ export default {
     const isTextSign = ref(false)
     const isSelectText = ref(false)
     const percentWidth = ref('100%')
+    const isSuccess = ref(true)
 
     // const store = useStore()
     bus.on('fileUpload', (v) => {
@@ -140,12 +140,6 @@ export default {
       if (localStorage.getItem('vue-canvas')) {
         signUrl.value = localStorage.getItem('vue-canvas')
       }
-    })
-    onBeforeRouteLeave((to, from) => {
-      const answer = window.confirm(
-        'Do you really want to leave? you have unsaved changes!'
-      )
-      if (!answer) return false
     })
 
     const pdfInit = (file) => {
@@ -255,6 +249,13 @@ export default {
       const height = pdf.internal.pageSize.height
       pdf.addImage(image, 'png', 0, 0, width, height)
       pdf.save('download.pdf')
+
+      let num = Math.floor(Math.random() * 100) + 1
+      if (num > 90) {
+        isSuccess.value = false
+      }
+
+      isSuccess.value = true
     }
     const finishSign = async() => {
       await downLoadPdf()
@@ -322,7 +323,8 @@ export default {
       perPage,
       nextPage,
       percentPlus,
-      percentMinus
+      percentMinus,
+      isSuccess
     }
   }
 }

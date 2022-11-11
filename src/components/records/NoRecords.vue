@@ -1,4 +1,5 @@
 <template>
+  <HeaderSection :step="-1" :isLoading="false" @backStepFirst="backStepFirst" />
   <div class="loading w-full h-screen left-0 top-0">
     <div class="loading-text absolute text-xl">
       <img src="@/assets/img/loading.png" class="car object-contain mx-auto mb-4" />
@@ -7,16 +8,26 @@
   </div>
 </template>
 
-<script>
+<script>import HeaderSection from '@/components/modules/headerSection.vue'
 import { onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 export default {
+  components: {
+    HeaderSection
+  },
   setup () {
+    const router = useRouter()
     onMounted(() => {
       })
     onUnmounted(() => {
     })
 
+    const backStepFirst = () => {
+      router.push({ name: 'home'})
+    }
+
     return {
+      backStepFirst
     }
   }
 }
