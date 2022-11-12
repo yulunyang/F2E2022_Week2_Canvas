@@ -13,7 +13,7 @@
               <img src="@/assets/img/delete.png" alt="">
             </a>
           </div>
-          <a href="" class="proj-text-primary block mt-4 font-bold text-lg whitespace-nowrap">+ 新增簽名</a>
+          <a href="" class="proj-text-primary block mt-4 font-bold text-lg whitespace-nowrap" @click="isSelectMode = false">+ 新增簽名</a>
         </div>
 
       </div>
@@ -42,7 +42,7 @@
             </div>
           </div>
 
-          <CanvasModulePop :isSignSelf="isSignSelf" v-on:closeWarning="closeWarning" />
+          <CanvasModulePop :isSignSelf="isSignSelf" v-on:closeWarning="closeWarning" v-on:getStroke="getStroke" v-on:backToChoose="backToChoose" />
 
         </div>
       </div>
@@ -62,7 +62,7 @@ export default {
   },
   setup (props, ctx) {
     const signArr = ref('')
-    const isSelectMode = ref(false)
+    const isSelectMode = ref(true)
     const isSignSelf = ref(true)
 
     onMounted(() => {
@@ -104,6 +104,15 @@ export default {
 
       init()
     }
+
+    const getStroke = (getStroke) => {
+      ctx.emit('selectedSign', getStroke)
+    }
+
+    const backToChoose = (backToChoose) => {
+      isSelectMode.value = backToChoose
+    }
+
     return {
       // url,
       signArr,
@@ -112,7 +121,9 @@ export default {
       delecteSign,
       init,
       isSelectMode,
-      isSignSelf
+      isSignSelf,
+      getStroke,
+      backToChoose
     }
   }
 }

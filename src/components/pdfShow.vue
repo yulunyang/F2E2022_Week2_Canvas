@@ -2,21 +2,16 @@
   <div class='pdfShow w-screen h-screen relative overflow-x-hidden'>
     <WarningAlert v-if="isMountedAlert" @closeWarning="closeWarning" />
     <SelectSign v-if="isSelectSign" @closeWarning="closeWarning" @selectedSign="selectedSign"  />
-    <selectText v-if="isSelectText" @closeWarning="closeWarning" @selectedText="selectedText"  />
     <div class="header-top fixed top-0 left-0 w-full flex p-2 xl:hidden z-50">
       <div class="w-9/12 p-2">
         <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-3xl">
-          <!-- <div> -->
-            <a class="prePage-btn"><img src="@/assets/img/arrowLeft.png" alt=""></a>
-          <!-- </div> -->
+          <a class="prePage-btn"><img src="@/assets/img/arrowLeft.png" alt=""></a>
           <div class="px-3 flex items-center">
-            <p class="p-3"><span id="page_num"></span></p>
+            <p class="p-3"><span id="page_num">1</span></p>
             <span class="px-1">/</span>
-            <p class="p-3"><span id="page_count">{{ pageCount }}</span></p>
+            <p class="p-3"><span id="page_count">1</span></p>
           </div>
-          <!-- <div> -->
-            <a class="nextPage-btn"><img src="@/assets/img/arrowRight.png" alt=""></a>
-          <!-- </div> -->
+          <a class="nextPage-btn"><img src="@/assets/img/arrowRight.png" alt=""></a>
         </div>
       </div>
       <div class="w-3/12 md:p-2 flex justify-center items-center">
@@ -108,7 +103,6 @@ import { onMounted, ref, reactive } from 'vue'
 import WarningAlert from '@/components/modules/warningAlert_pdf.vue'
 import PdfViewT from '@/components/modules/PdfViewT.vue'
 import SelectSign from '@/components/popup/selectSign.vue'
-import selectText from '@/components/popup/selectText.vue'
 import bus from '@/bus'
 import  * as moment  from "moment"
 import Swal from 'sweetalert2'
@@ -117,7 +111,6 @@ export default {
   components: {
     WarningAlert,
     SelectSign,
-    selectText,
     PdfViewT
   },
   setup (props, ctx) {
@@ -125,7 +118,6 @@ export default {
     const isMountedAlert = ref(false)
     const isSelectSign = ref(false)
     const isTextSign = ref(false)
-    const isSelectText = ref(false)
     const percentWidth = ref('100%')
     const isSuccess = ref(true)
     const pageNum = ref(1)
@@ -148,20 +140,6 @@ export default {
       if (localStorage.getItem('vue-canvas')) {
         signUrl.value = localStorage.getItem('vue-canvas')
       }
-
-      // Swal.fire({
-      //   title: '請置入簽名後再完成簽署',
-      //   showCancelButton: false,
-      //   confirmButtonText: '確定',
-      //   cancelButtonText: '取消',
-      //   customClass: {
-      //     popup: 'customClass-popup rounded-3xl py-6 w-auto px-5',
-      //     title: 'customClass-title font-bold text-black pt-6 px-0',
-      //     actions: 'btns',
-      //     confirmButton: 'btn btn-confirm',
-      //     cancelButton: 'btn btn-cancel',
-      //   }
-      // })
     })
 
     const pdfInit = (file) => {
@@ -208,8 +186,7 @@ export default {
       }
 
       const pdfToImage = async(pdfData) => {
-        // const scale = 1 / window.devicePixelRatio
-        const scale = 1 / window.devicePixelRatio
+        const scale = 2
         return new fabric.Image(pdfData, {
           scaleX: scale,
           scaleY: scale
@@ -254,13 +231,13 @@ export default {
       const today = moment().format('YYYY/MM/DD')
 
       dateBtn.addEventListener('click', () => {
-        // var text = new fabric.Text(today, (image) => {
-        //   image.top = 10
-        //   image.left = 10
-        //   image.scaleX = 0.5
-        //   image.scaleY = 0.5
-        // })
-        // canvas.add(text)
+        var text = new fabric.Text(today, (image) => {
+          image.top = 10
+          image.left = 10
+          image.scaleX = 0.5
+          image.scaleY = 0.5
+        })
+        canvas.add(text)
 
       })
 
@@ -302,7 +279,6 @@ export default {
     const closeWarning = (closeWarning) => {
       isMountedAlert.value = false
       isSelectSign.value = closeWarning
-      isSelectText.value = false
     }
 
     const selectedSign = (selectedSign) => {
@@ -372,7 +348,6 @@ export default {
       closeWarning,
       selectedSign,
       isTextSign,
-      isSelectText,
       selectedText,
       selectedDate,
       // perPage,

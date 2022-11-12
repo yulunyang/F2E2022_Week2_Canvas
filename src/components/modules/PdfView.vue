@@ -48,7 +48,7 @@ export default({
       var pageNum = 1
       var pageRendering = false
       var pageNumPending = null
-      var scale = 0.8
+      var scale = 2
       var canvas = document.getElementById('the-canvas')
       var ctx = canvas.getContext('2d')
 

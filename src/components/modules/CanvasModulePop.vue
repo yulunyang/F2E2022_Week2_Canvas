@@ -46,7 +46,7 @@
 
       <div class="button-container w-full mt-6 xl:mt-10 flex justify-center text-lg">
         <div class="p-2">
-          <button @click="closeWarning" type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-36 rounded-lg proj-border-primary border-2">
+          <button @click="backToChoose()" type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-36 rounded-lg proj-border-primary border-2">
             取消
           </button>
         </div>
@@ -73,7 +73,7 @@
 
       <div class="button-container w-full mt-10 flex justify-center text-lg">
         <div class="p-2">
-          <button @click="closeWarning" type="button" class="py-3 px-3 bg-white proj-text-primary w-36 rounded-lg proj-border-primary border-2">
+          <button @click="backToChoose()" type="button" class="py-3 px-3 bg-white proj-text-primary w-36 rounded-lg proj-border-primary border-2">
             取消
           </button>
         </div>
@@ -204,6 +204,10 @@ export default {
       }
       localStorage.setItem("vue-canvas-array", JSON.stringify(signArr))
 
+      this.closeWarning()
+
+      this.$emit('getStroke', this.image)
+
       // bus.emit('reloadSign')
     },
     removeSavedStrokes() {
@@ -213,6 +217,9 @@ export default {
     },
     setColor (color) {
       this.color = color
+    },
+    backToChoose () {
+      this.$emit('backToChoose', false)
     }
   }
 }

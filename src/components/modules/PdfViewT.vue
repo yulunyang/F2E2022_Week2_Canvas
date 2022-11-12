@@ -1,11 +1,31 @@
 <!-- eslint-disable vue/require-prop-type-constructor -->
 <template>
-  <div class="pdf-viewer py-24">
+  <SelectSign v-if="isSelectSign" @closeWarning="closeWarning" @selectedSign="selectedSign"  />
+
+  <!-- <div class="header-top fixed top-0 left-0 w-full flex p-2 xl:hidden z-50">
+    <div class="w-9/12 p-2">
+      <div class="flex items-center item py-2 px-3 justify-between bg-white rounded-3xl">
+        <a class="prePage-btn"><img src="@/assets/img/arrowLeft.png" alt=""></a>
+        <div class="px-3 flex items-center">
+          <p class="p-3"><span id="page_num"></span></p>
+          <span class="px-1">/</span>
+          <p class="p-3"><span id="page_count">{{ pageCount }}</span></p>
+        </div>
+        <a class="nextPage-btn"><img src="@/assets/img/arrowRight.png" alt=""></a>
+      </div>
+    </div>
+    <div class="w-3/12 md:p-2 flex justify-center items-center">
+      <button type="button" class="downloadBtn py-4 w-full proj-bg-Gradient text-white rounded-3xl proj-border-primary border-2 h-auto" @click="finishSign">
+        完成簽署
+      </button>
+    </div>
+  </div> -->
+
+  <div class="pdf-viewer pt-24 pb-28">
     <div class="bg-white container mx-auto px-2 xl:px-20 overflow-auto">
-      <canvas id="the-canvas" class="w-full overflow-scroll" :style="`width: ${width}%`"></canvas>
+      <canvas id="the-canvas" class="w-full overflow-scroll" :style="`width: ${width}% !important`"></canvas>
     </div>
   </div>
-  <!-- footer -->
 
 <!-- footer -->
     <div class="footer fixed bottom-0 left-0 w-full z-50">
@@ -36,7 +56,7 @@
             </div>
           </div>
           <div class="w-full xl:w-3/12 flex justify-center bg-white rounded-3xl xl:rounded-none">
-            <a class="signBtn flex flex-col items-center w-20 py-4 cursor-pointer">
+            <a class="signBtn flex flex-col items-center w-20 py-4 cursor-pointer" @click="setSign()">
               <div class="icon flex justify-center items-center">
                 <img src="@/assets/img/icon/icon1.png" alt="">
               </div>
@@ -73,8 +93,14 @@
 
 <script>
 import { onMounted, ref } from "@vue/runtime-core"
+import { fabric } from 'fabric'
+import  * as moment  from "moment"
+import Swal from 'sweetalert2'
+import SelectSign from '@/components/popup/selectSign.vue'
+let canvas = null
 export default({
   components: {
+    SelectSign
   },
   props: {
   },
@@ -82,7 +108,9 @@ export default({
   },
   setup () {
     const width = ref(100)
-
+    const isSelectSign = ref(false)
+    // var canvas = new fabric.Canvas('the-canvas')
+    const signUrl = ref('')
     const percentPlus = () => {
       // console.log(width.value)
       if (width.value < 150) {
@@ -97,29 +125,27 @@ export default({
         console.log(width.value)
       }
     }
-    onMounted(() => {
+
+    const init = () => {
       var url = '/test3.pdf';
       var pdfjsLib = window['pdfjs-dist/build/pdf']
 
       pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js'
-      if (document.getElementById('the-canvas')) {
-
 
       var pdfDoc = null
       var pageNum = 1
       var pageRendering = false
       var pageNumPending = null
       var scale = 2
-      var canvas = document.getElementById('the-canvas')
-      var ctx = canvas.getContext('2d')
+      var canvasImage = document.getElementById('the-canvas')
+      var ctx = canvasImage.getContext('2d')
 
       const renderPage = (num) => {
         pageRendering = true
-        // Using promise to fetch the page
         pdfDoc.getPage(num).then((page) => {
           var viewport = page.getViewport({scale: scale})
-          canvas.height = viewport.height
-          canvas.width = viewport.width
+          canvasImage.height = viewport.height
+          canvasImage.width = viewport.width
 
           var renderContext = {
             canvasContext: ctx,
@@ -171,18 +197,107 @@ export default({
 
         renderPage(pageNum)
       })
+
+    }
+    onMounted(() => {
+      canvas = new fabric.Canvas('the-canvas')
+      if (localStorage.getItem('vue-canvas')) {
+        signUrl.value = localStorage.getItem('vue-canvas')
       }
+      // canvas = new fabric.Canvas('c')
+      init()
     })
+
+    const setSign = () => {
+      fabric.Image.fromURL(signUrl.value, (img, err) => {
+        if(!err) {
+          img.set({
+            left: 100, // 左上角位置
+            top: 100, // 左上角位置
+            width: 100,
+            height: 100,
+            crossOrigin: 'anonymous' // 使用的图片跨域时，配置此参数，有时会失效
+          })
+          canvas.add(img)
+        }
+      })
+    }
+    const selectedSign = (selectedSign) => {
+      console.log(selectedSign)
+      // const canvas = new fabric.Canvas('canvas')
+      fabric.Image.fromURL(selectedSign, (image) => {
+        image.top = 0
+        image.scaleX = 0.5
+        image.scaleY = 0.5
+        canvas.add(image)
+      })
+    }
+    const selectedText = () => {
+      console.log('selectedText')
+      Swal.fire({
+        input: 'textarea',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        customClass: {
+          popup: 'customClass-popup rounded-3xl py-6 w-auto px-5',
+          title: 'customClass-title font-bold text-black pt-6 px-0',
+          input: 'customClass-input',
+          inputLabel: '',
+          actions: 'btns',
+          confirmButton: 'btn btn-confirm',
+          cancelButton: 'btn btn-cancel',
+        }
+      }).then((result) => {
+        if (result.value) {
+          console.log(result.value)
+          let textInput = new fabric.Text(result.value, (image) => {
+            image.top = 10
+            image.left = 10
+            image.scaleX = 0.5
+            image.scaleY = 0.5
+          })
+          canvas.add(textInput)
+        }
+      })
+    }
+
+    const selectedDate = () => {
+      const today = moment().format('YYYY/MM/DD')
+      let text = new fabric.Text(today, (image) => {
+        image.top = 10
+        image.left = 10
+        image.scaleX = 0.5
+        image.scaleY = 0.5
+      })
+      canvas.add(text)
+    }
+    const closeWarning = (closeWarning) => {
+      isSelectSign.value = closeWarning
+    }
     return {
+      isSelectSign,
       width,
       percentPlus,
-      percentMinus
+      percentMinus,
+      init,
+      canvas,
+      selectedText,
+      selectedDate,
+      signUrl,
+      setSign,
+      selectedSign,
+      closeWarning
     }
   },
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .pdf-viewer {
     background: #F0F0F0;
   }
@@ -198,5 +313,13 @@ export default({
   .nextPage-btn {
     width: 30px;
     height: 30px;
+  }
+  .canvas-container {
+    min-height: 90vh !important;
+    width: 100% !important;
+  }
+  canvas {
+    height: auto !important;
+    width: 100% !important;
   }
 </style>
