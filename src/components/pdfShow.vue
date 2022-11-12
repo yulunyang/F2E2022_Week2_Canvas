@@ -1,5 +1,5 @@
 <template>
-  <div class='pdfShow w-screen h-screen relative'>
+  <div class='pdfShow w-screen h-screen relative overflow-x-hidden'>
     <WarningAlert v-if="isMountedAlert" @closeWarning="closeWarning" />
     <SelectSign v-if="isSelectSign" @closeWarning="closeWarning" @selectedSign="selectedSign"  />
     <selectText v-if="isSelectText" @closeWarning="closeWarning" @selectedText="selectedText"  />
@@ -26,7 +26,9 @@
       </div>
     </div>
 
-    <div class="styledCreate__WrapperRight-sc-1i4fuzv-10 cKAFxH">
+    <PdfViewT />
+
+    <!-- <div class="styledCreate__WrapperRight-sc-1i4fuzv-10 cKAFxH">
       <div id="viewer" tabindex="10" scale="1" class="styled__Wrapper-sc-cpx59f-1 gKmbon overflow-x-hidden">
         <div class="react-pdf__Document">
           <div id="pageContainer1" class="styled__WrapperPage-sc-cpx59f-2 cFGXRm page" width="1101.6000000000001" height="1425.6000000000001" style="">
@@ -36,24 +38,20 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="footer fixed bottom-0 left-0 w-full z-50">
+    <!-- <div class="footer fixed bottom-0 left-0 w-full z-50">
       <div class="p-3 xl:p-0 ">
         <div class="mr-auto flex w-full">
           <div class="w-7/12 hidden xl:flex justify-end items-center bg-white">
             <div class="flex items-center mx-2 item py-2 px-3 justify-between">
-              <!-- <div> -->
                 <a class="cursor-pointer inline-block prePage-btn"><img src="@/assets/img/arrowLeft.png" alt=""></a>
-              <!-- </div> -->
               <div class="px-3 flex items-center">
                 <p class="p-3"><span id="page_num">1</span></p>
                 <span class="px-1">/</span>
                 <p class="p-3"><span id="page_count">{{ pageCount }}</span></p>
               </div>
-              <!-- <div> -->
                 <a class="cursor-pointer inline-block nextPage-btn"><img src="@/assets/img/arrowRight.png" alt=""></a>
-              <!-- </div> -->
             </div>
             <div class="flex items-center mx-2 item py-2 px-3 justify-between">
               <div>
@@ -100,7 +98,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -108,6 +106,7 @@
 /* eslint-disable */
 import { onMounted, ref, reactive } from 'vue'
 import WarningAlert from '@/components/modules/warningAlert_pdf.vue'
+import PdfViewT from '@/components/modules/PdfViewT.vue'
 import SelectSign from '@/components/popup/selectSign.vue'
 import selectText from '@/components/popup/selectText.vue'
 import bus from '@/bus'
@@ -118,7 +117,8 @@ export default {
   components: {
     WarningAlert,
     SelectSign,
-    selectText
+    selectText,
+    PdfViewT
   },
   setup (props, ctx) {
     const signUrl = ref('')

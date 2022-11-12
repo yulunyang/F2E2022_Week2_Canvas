@@ -47,7 +47,7 @@ export default {
     const isLeaving = ref(false)
     const isWarning = ref(false)
     const isWarningText = ref('')
-    const step = ref(0)
+    const step = ref(2)
     const timer = ref(null)
     onMounted(() => {
     })
