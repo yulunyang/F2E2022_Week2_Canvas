@@ -37,7 +37,7 @@ export default({
   },
   setup () {
     onMounted(() => {
-      var url = '/test.pdf';
+      var url = '/test3.pdf';
       var pdfjsLib = window['pdfjs-dist/build/pdf']
 
       pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js'

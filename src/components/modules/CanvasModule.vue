@@ -252,7 +252,7 @@
           <input type="file" @change="setWatermarkImage($event)" />
         </div>
       </div> -->
-      <div class="button-container w-full mt-6 xl:mt-10 flex">
+      <div class="button-container w-full mt-6 xl:mt-10 flex text-lg">
         <div class="w-1/2 p-2">
           <button type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-full rounded-lg proj-border-primary border-2">
             清除
@@ -279,7 +279,7 @@
         <input type="file" @change="setWatermarkImage($event)" accept="image/*" id="file-upload" />
       </div>
 
-      <div class="button-container w-full mt-10 flex">
+      <div class="button-container w-full mt-10 flex text-lg">
         <div class="w-1/2 p-2">
           <button type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-full rounded-lg proj-border-primary border-2">
             清除

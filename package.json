@@ -13,6 +13,7 @@
     "mitt": "^3.0.0",
     "moment": "^2.29.4",
     "pdfjs-dist": "^2.7.570",
+    "sweetalert2": "^11.6.8",
     "vue": "^3.2.13",
     "vue-drawing-canvas": "^1.0.14",
     "vue-pdf": "^4.2.0",

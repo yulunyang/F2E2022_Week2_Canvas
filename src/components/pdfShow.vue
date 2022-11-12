@@ -86,7 +86,7 @@
               </div>
               <p class="text-sm mt-1">日期</p>
             </a>
-            <a class="textBtn flex flex-col items-center w-20 py-4" @click="isSelectText = true">
+            <a class="textBtn flex flex-col items-center w-20 py-4" @click="selectedText()">
               <div class="icon flex justify-center items-center cursor-pointer">
                 <img src="@/assets/img/icon/icon4.png" alt="">
               </div>
@@ -112,6 +112,7 @@ import SelectSign from '@/components/popup/selectSign.vue'
 import selectText from '@/components/popup/selectText.vue'
 import bus from '@/bus'
 import  * as moment  from "moment"
+import Swal from 'sweetalert2'
 export default {
   name: 'pdfShow',
   components: {
@@ -122,7 +123,7 @@ export default {
   setup (props, ctx) {
     const signUrl = ref('')
     const isMountedAlert = ref(false)
-    const isSelectSign = ref(true)
+    const isSelectSign = ref(false)
     const isTextSign = ref(false)
     const isSelectText = ref(false)
     const percentWidth = ref('100%')
@@ -131,10 +132,10 @@ export default {
     const pageCount = ref(1)
 
     const Base64Prefix = 'data:application/pdf;base64,'
-    const add = document.querySelector('.add')
+    // const add = document.querySelector('.add')
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
     const canvas = new fabric.Canvas('canvas')
-    // const store = useStore()
+
     bus.on('fileUpload', (v) => {
       pdfInit(v)
     })
@@ -147,12 +148,26 @@ export default {
       if (localStorage.getItem('vue-canvas')) {
         signUrl.value = localStorage.getItem('vue-canvas')
       }
+
+      // Swal.fire({
+      //   title: '請置入簽名後再完成簽署',
+      //   showCancelButton: false,
+      //   confirmButtonText: '確定',
+      //   cancelButtonText: '取消',
+      //   customClass: {
+      //     popup: 'customClass-popup rounded-3xl py-6 w-auto px-5',
+      //     title: 'customClass-title font-bold text-black pt-6 px-0',
+      //     actions: 'btns',
+      //     confirmButton: 'btn btn-confirm',
+      //     cancelButton: 'btn btn-cancel',
+      //   }
+      // })
     })
 
     const pdfInit = (file) => {
-      // const Base64Prefix = 'data:application/pdf;base64,'
+      const Base64Prefix = 'data:application/pdf;base64,'
       // const add = document.querySelector('.add')
-      // pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
 
       const readBlob = (blob) => {
         return new Promise((resolve, reject) => {
@@ -201,7 +216,7 @@ export default {
         })
       }
 
-      // const canvas = new fabric.Canvas('canvas')
+      const canvas = new fabric.Canvas('canvas')
 
       const Init = async () => {
         canvas.requestRenderAll()
@@ -239,13 +254,14 @@ export default {
       const today = moment().format('YYYY/MM/DD')
 
       dateBtn.addEventListener('click', () => {
-        var text = new fabric.Text(today, (image) => {
-          image.top = 10
-          image.left = 10
-          image.scaleX = 0.5
-          image.scaleY = 0.5
-        })
-        canvas.add(text)
+        // var text = new fabric.Text(today, (image) => {
+        //   image.top = 10
+        //   image.left = 10
+        //   image.scaleX = 0.5
+        //   image.scaleY = 0.5
+        // })
+        // canvas.add(text)
+
       })
 
       // 前一頁
@@ -299,22 +315,42 @@ export default {
       })
     }
 
-    const selectedText = (selectedText) => {
-      const canvas = new fabric.Canvas('canvas')
+    const selectedText = () => {
+      Swal.fire({
+        input: 'textarea',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        customClass: {
+          popup: 'customClass-popup rounded-3xl py-6 w-auto px-5',
+          title: 'customClass-title font-bold text-black pt-6 px-0',
+          input: 'customClass-input',
+          inputLabel: '',
+          actions: 'btns',
+          confirmButton: 'btn btn-confirm',
+          cancelButton: 'btn btn-cancel',
+        }
+      }).then((result) => {
+          const canvas = new fabric.Canvas('canvas')
 
-      var text = new fabric.Text(selectedText, (image) => {
-        image.top = 10
-        image.left = 10
-        image.scaleX = 0.5
-        image.scaleY = 0.5
+          var text = new fabric.Text(result.value, (image) => {
+            image.top = 10
+            image.left = 10
+            image.scaleX = 0.5
+            image.scaleY = 0.5
+          })
+          canvas.add(text)
       })
-      canvas.add(text)
     }
 
     const selectedDate = () => {
       const canvas = new fabric.Canvas('canvas')
-
-      var text = new fabric.Text('2022/11/11', (image) => {
+      const today = moment().format('YYYY/MM/DD')
+      var text = new fabric.Text(today, (image) => {
         image.top = 10
         image.left = 10
         image.scaleX = 0.5

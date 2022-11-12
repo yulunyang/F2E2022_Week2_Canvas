@@ -27,6 +27,8 @@ import PdfShow from '@/components/pdfShow.vue'
 import DownloadStatus from '@/components/downloadStatus.vue'
 import { onMounted, ref } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'HomeView',
   components: {
@@ -51,12 +53,26 @@ export default {
     })
     onBeforeRouteLeave((to, from) => {
       if (step.value === 2) {
-        const answer = window.confirm(
-          'Do you really want to leave? you have unsaved changes!'
-        )
-        if (!answer) return false
+        Swal.fire({
+          title: '尚未儲存文件，確定要離開且刪除？',
+          showCancelButton: true,
+          confirmButtonText: '確定',
+          cancelButtonText: '取消',
+          customClass: {
+            popup: 'customClass-popup rounded-3xl py-6 w-auto px-5',
+            title: 'customClass-title font-bold text-black pt-6 px-0',
+            actions: 'btns',
+            confirmButton: 'btn btn-confirm',
+            cancelButton: 'btn btn-cancel',
+          }
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            return false
+          }
+        })
       }
     })
+
     const isFileOverAlert = (isFileOverAlert) => {
       isWarning.value = true
       isWarningText.value = isFileOverAlert
