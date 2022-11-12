@@ -1,7 +1,7 @@
 <template>
   <!-- header -->
   <div class="header w-full flex justify-between items-center proj-bg-primary py-1 xl:hidden">
-    <router-link :to="{ name: 'records' }" class="inline-block p-4"><i class="fa-solid fa-chevron-left text-white text-lg"></i></router-link>
+    <router-link :to="{ name: 'documents' }" class="inline-block p-4"><i class="fa-solid fa-chevron-left text-white text-lg"></i></router-link>
   </div>
   <header class="fixed w-full top-0 left-0 z-50 hidden xl:block">
     <div class="mx-auto py-4 px-6 md:px-28 lg:px-8 lg:pr-36">
