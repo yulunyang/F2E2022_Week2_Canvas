@@ -36,10 +36,11 @@ export default {
 
 <style scoped lang="scss">
 .loading {
-  // background-image: url('@/assets/img/leaf1.png'), url('@/assets/img/leaf2.png');
-  // background-position: left bottom, right top;
-  // background-repeat: no-repeat;
   background-color: rgb(255, 255, 255, 1);
+  @media (max-width: 1024px) {
+    background-image: none;
+    background: rgba(240, 240, 240, 1);
+  }
 }
 .loading-text {
   left: 50%;

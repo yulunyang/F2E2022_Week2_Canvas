@@ -11,8 +11,8 @@
         <div class="h-7 w-7 rounded-full inline-block proj-bg-red absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" :class="{ 'border-2 border-white': color === '#CA0000' }"></div>
       </a>
     </div>
-    <div class="source" v-show="isSignSelf">
-      <div class="bg-white rounded-3xl">
+    <div class="source px-2" v-show="isSignSelf">
+      <div class="bg-white rounded-3xl max-w-xs md:max-w-none overflow-hidden">
         <vue-drawing-canvas
           ref="VueCanvasDrawing"
           v-model:image="image"

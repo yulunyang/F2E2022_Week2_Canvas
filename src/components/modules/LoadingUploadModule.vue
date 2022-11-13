@@ -39,6 +39,10 @@ export default {
   background-position: left bottom, right top;
   background-repeat: no-repeat;
   background-color: rgb(255, 255, 255, 1);
+  @media (max-width: 1024px) {
+    background-image: none;
+    background: rgba(240, 240, 240, 1);
+  }
 }
 .loading-text {
   left: 50%;

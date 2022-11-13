@@ -23,7 +23,8 @@ import LoadingSignModule from '@/components/modules/LoadingSignModule.vue'
 import WarningAlert from '@/components/modules/warningAlert.vue'
 import Upload from '@/components/Upload.vue'
 import Sign from '@/components/Sign.vue'
-import PdfShow from '@/components/pdfShow.vue'
+import PdfShow from '@/components/PdfView3.vue'
+// import PdfShow from '@/components/PdfViewT.vue'
 import DownloadStatus from '@/components/downloadStatus.vue'
 import { onMounted, ref } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
@@ -47,7 +48,7 @@ export default {
     const isLeaving = ref(false)
     const isWarning = ref(false)
     const isWarningText = ref('')
-    const step = ref(2)
+    const step = ref(0)
     const timer = ref(null)
     onMounted(() => {
     })
@@ -97,8 +98,9 @@ export default {
       }, 2000)
       clearTimeout(timeout.value)
     }
-    const finishSign = () => {
-      step.value = 3
+    const finishSign = finishSign => {
+      console.log(finishSign)
+      // step.value = 3
     }
     const closeWarning = (closeWarning) => {
       isWarning.value = false

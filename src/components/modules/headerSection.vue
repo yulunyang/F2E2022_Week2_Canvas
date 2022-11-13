@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/require-prop-type-constructor -->
 <template>
-  <header class="fixed w-full top-0 left-0 z-50">
+  <header class="fixed w-full top-0 left-0 z-50" :class="{ 'hidden md:block': step === 1 }">
     <div class="mx-auto py-4 px-6 md:px-28 lg:px-8 lg:pr-36">
       <div class="flex justify-between w-full items-end lg:items-center">
         <div class="flex items-center">

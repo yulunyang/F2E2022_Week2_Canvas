@@ -56,9 +56,13 @@ export default {
 .Sign{
   background: rgba(240, 240, 240, 0.58);
 }
-.index_Sign{
+.index_Sign {
+  margin-top: 180px;
+  @media (max-width: 1024px) {
+    margin-top: 90px;
+  }
   height: 100%;
-  max-height: 80%;
+  // max-height: 80%;
   max-width: 1040px;
 }
 #container {

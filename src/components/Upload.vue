@@ -62,7 +62,6 @@ export default {
 
       if (e.target.files[0].type.indexOf('pdf') > 0) {
         if (fileSize < 10) {
-          console.log(e.target.files[0])
           bus.emit('fileUpload', e.target.files[0])
 
           ctx.emit('nextStep')
@@ -74,9 +73,7 @@ export default {
       } else {
         ctx.emit('showWarning', '檔案格式錯誤，請重新選擇')
       }
-
     }
-
     return {
       checkFile,
       store

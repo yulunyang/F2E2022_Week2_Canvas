@@ -1,24 +1,26 @@
 <template>
   <div class="warningAlert_pdf w-full h-screen left-0 top-0 fixed">
     <div class="select_bg absolute h-screen w-screen left-0 top-0" @click="closeWarning"></div>
-    <div class="card-inner absolute text-xl max-w-md w-full z-50" v-if="isSelectMode">
+    <div class="card-inner absolute text-xl max-w-xs md:max-w-md w-full z-50" v-if="isSelectMode">
       <div class="bg rounded-3xl overflow-hidden shadow-lg w-full">
         <div class="px-4 py-6 flex flex-col justify-center w-full">
           <div class="font-bold text-lg mb-8 whitespace-nowrap text-center proj-text-primary">請選擇簽名</div>
-          <div class="flex items-center mb-2" v-for="(item, idx) in signArr" :key="idx">
-            <div class="h-auto bg-white w-4/5 rounded-3xl py-2" @click="selectedSign(item)">
-              <img :src="item" class='sign mx-auto object-contain w-36 h-20' />
+          <div class="overflow-auto selected-h">
+            <div class="flex items-center mb-2" v-for="(item, idx) in signArr" :key="idx">
+              <div class="h-auto bg-white w-4/5 rounded-3xl py-2" @click="selectedSign(item)">
+                <img :src="item" class='sign mx-auto object-contain w-36 h-20' />
+              </div>
+              <a class="p-2 w-1/5 inline-flex justify-center items-center" @click="delecteSign(idx)">
+                <img src="@/assets/img/delete.png" alt="">
+              </a>
             </div>
-            <a class="p-2 w-1/5 inline-flex justify-center items-center" @click="delecteSign(idx)">
-              <img src="@/assets/img/delete.png" alt="">
-            </a>
           </div>
           <a href="" class="proj-text-primary block mt-4 font-bold text-lg whitespace-nowrap" @click="isSelectMode = false">+ 新增簽名</a>
         </div>
 
       </div>
     </div>
-    <div class="card-inner absolute text-xl max-w-2xl w-full z-50" v-if="!isSelectMode">
+    <div class="card-inner absolute text-xl max-w-xs md:max-w-md w-full z-50" v-if="!isSelectMode">
       <div class="bg rounded-3xl overflow-hidden shadow-lg w-full">
 
         <div class="index_Sign flex flex-col items-center w-full py-4">
@@ -199,5 +201,9 @@ export default {
 }
 .toggle-active {
   clip-path: inset(0 0% 0% 50%) !important;
+}
+
+.selected-h {
+  height: 18rem;
 }
 </style>
