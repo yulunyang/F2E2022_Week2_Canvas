@@ -18,10 +18,8 @@
     "sweetalert2": "^11.6.8",
     "vue": "^3.2.13",
     "vue-drawing-canvas": "^1.0.14",
-    "vue-pdf": "^4.2.0",
     "vue-router": "^4.0.3",
     "vue3-lottie": "^2.4.0",
-    "vue3-pdf": "^4.2.6",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
