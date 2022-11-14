@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-    <div class="flex mb-6 justify-between items-center w-full" :class="{ 'invisible': !isSignSelf }">
+    <div class="flex mb-6 justify-between items-center w-full" v-if="isSignSelf">
       <div class="flex">
         <a class="h-8 w-8 rounded-full inline-block bg-black m-2 relative" @click="setColor('#000000')">
           <div class="h-7 w-7 rounded-full inline-block bg-black absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" :class="{ 'border-2 border-white': color === '#000000' }"></div>
@@ -13,17 +13,18 @@
         </a>
       </div>
 
-      <a @click.prevent="removeSavedStrokes()" class="proj-text-primary cursor-pointer">清除</a>
+      <a @click.prevent="removeSavedStrokes()" class="proj-text-primary cursor-pointer font-semibold text-base">清除</a>
     </div>
+
     <div class="source" v-show="isSignSelf">
-      <div class="bg-white rounded-3xl">
+      <div class="bg-white rounded-3xl max-w-xs md:max-w-none overflow-hidden">
         <vue-drawing-canvas
           class="z-10"
           canvasId="VueCanvasDrawingPop"
           ref="VueCanvasDrawingPop"
           v-model:image="image"
-          :width="600"
-          :height="300"
+          :width="300"
+          :height="200"
           :stroke-type="strokeType"
           :line-cap="lineCap"
           :line-join="lineJoin"
@@ -44,46 +45,42 @@
         />
       </div>
 
-      <div class="button-container w-full mt-6 xl:mt-10 flex justify-center text-lg">
+      <!-- <div class="button-container w-full flex justify-center text-lg">
         <div class="p-2">
-          <button @click="backToChoose()" type="button" @click.prevent="removeSavedStrokes()" class="py-3 px-3 bg-white proj-text-primary w-36 rounded-lg proj-border-primary border-2">
+          <button @click="backToChoose()" class="py-3 px-3 bg-white proj-text-primary w-28 rounded-xl proj-border-primary border-2" type="button">
             取消
           </button>
         </div>
         <div class="p-2">
-          <button type="button" @click.prevent="getStrokes()" class="py-3 px-3 proj-bg-Gradient text-white w-36 rounded-lg proj-border-primary border-2">
+          <button @click.prevent="getStrokes()" class="py-3 px-3 proj-bg-Gradient text-white w-28 rounded-xl proj-border-primary border-2" type="button">
             建立簽名
           </button>
         </div>
 
-      </div>
+      </div> -->
     </div>
 
     <div class="output" v-show="!isSignSelf">
 
-      <div v-if="isFile" style="width: 600px; height: 300px" class="bg-white round">
-        <img :src="image" style="border-radius: 26px" />
+      <div v-if="isFile" class="round selectFile-container overflow-hidden">
+        <img :src="image" class="mx-auto rounded-3xl overflow-hidden" />
       </div>
-      <div v-else style="width: 600px; height: 300px" class="bg-white round">
+      <div v-else class="bg-white round selectFile-container">
         <label for="file-upload-pop" class="custom-file-upload w-full flex items-center justify-center">
           <span>請選擇檔案</span>
         </label>
         <input type="file" @change="setWatermarkImage($event)" accept="image/*" id="file-upload-pop" />
       </div>
 
-      <div class="button-container w-full mt-10 flex justify-center text-lg">
-        <div class="p-2">
-          <button @click="backToChoose()" type="button" class="py-3 px-3 bg-white proj-text-primary w-36 rounded-lg proj-border-primary border-2">
-            取消
-          </button>
-        </div>
-        <div class="p-2">
-          <button type="button" @click.prevent="getStrokes()" class="py-3 px-3 proj-bg-Gradient text-white w-36 rounded-lg proj-border-primary border-2">
-            建立簽名
-          </button>
-        </div>
+    </div>
 
-      </div>
+    <div class="button-container w-full flex justify-center text-lg">
+      <button @click="backToChoose()" class="py-3 bg-white proj-text-primary w-32 rounded-xl proj-border-primary border-2" type="button">
+        取消
+      </button>
+      <button @click.prevent="getStrokes()" class="py-3 proj-bg-Gradient text-white w-32 rounded-xl proj-border-primary border-2" type="button">
+        建立簽名
+      </button>
     </div>
   </div>
 </template>
@@ -144,25 +141,38 @@ export default {
       this.$emit('closeWarning')
     },
     init () {
-      if ("vue-drawing-canvas" in window.localStorage) {
-        this.initialImage = JSON.parse(
-          window.localStorage.getItem("vue-drawing-canvas")
-        )
-      } else {
-          this.initialImage = [
-          {
-            type: "dash",
-            from: {
-              x: 262,
-              y: 154,
-            },
-            coordinates: [],
-            color: "#000000",
-            width: 5,
-            fill: false,
+        this.initialImage = [
+        {
+          type: "dash",
+          from: {
+            x: 262,
+            y: 154,
           },
-        ]
-      }
+          coordinates: [],
+          color: "#000000",
+          width: 5,
+          fill: false,
+        },
+      ]
+      // if ("vue-drawing-canvas" in window.localStorage) {
+      //   this.initialImage = JSON.parse(
+      //     window.localStorage.getItem("vue-drawing-canvas")
+      //   )
+      // } else {
+      //     this.initialImage = [
+      //     {
+      //       type: "dash",
+      //       from: {
+      //         x: 262,
+      //         y: 154,
+      //       },
+      //       coordinates: [],
+      //       color: "#000000",
+      //       width: 5,
+      //       fill: false,
+      //     },
+      //   ]
+      // }
     },
     async setImage (event) {
       let URL = window.URL
@@ -225,7 +235,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .button-container > * {
   margin-top: 15px;
   margin-right: 10px;
@@ -249,9 +259,20 @@ label {
   font-weight: 600;
   font-family: sans-serif;
   cursor: pointer;
-  /* display: inline-block; */
   overflow: hidden;
   color: #B7B7B7;
   background: none;
+}
+.selectFile-container {
+  width: 590px;
+  height: 200px;
+  @media (max-width: 768px) {
+    width: 300px;
+    height: 200px;
+  }
+  @media (max-width: 640px) {
+    width: 300px;
+    height: 200px;
+  }
 }
 </style>

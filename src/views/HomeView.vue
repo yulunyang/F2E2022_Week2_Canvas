@@ -8,9 +8,9 @@
     <WarningAlert v-if="isWarning" :isWarningText="isWarningText" @closeWarning="closeWarning" />
 
     <Upload v-show="step === 0" @nextStep="nextStep" @showWarning="isFileOverAlert"  />
-    <Sign v-show="step === 1" @setStep2="setStep2" />
+    <Sign v-if="step === 1" @setStep2="setStep2" />
     <PdfShow v-show="step === 2" @finishSign="finishSign" />
-    <DownloadStatus v-show="step === 3" @backIndex="backIndex" />
+    <DownloadStatus v-if="step === 3" @backIndex="backIndex" />
   </div>
 </template>
 
@@ -43,12 +43,13 @@ export default {
     WarningAlert
   },
   setup () {
+    const step = ref(0)
+
     const isLoading = ref(false)
     const isLoadingSign = ref(false)
     const isLeaving = ref(false)
     const isWarning = ref(false)
     const isWarningText = ref('')
-    const step = ref(0)
     const timer = ref(null)
     onMounted(() => {
     })
@@ -98,9 +99,8 @@ export default {
       }, 2000)
       clearTimeout(timeout.value)
     }
-    const finishSign = finishSign => {
-      console.log(finishSign)
-      // step.value = 3
+    const finishSign = (finishSign) => {
+      step.value = 3
     }
     const closeWarning = (closeWarning) => {
       isWarning.value = false

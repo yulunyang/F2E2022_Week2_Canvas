@@ -1,7 +1,7 @@
 <template>
   <div class="warningAlert_pdf w-full h-screen left-0 top-0 fixed">
     <div class="select_bg absolute h-screen w-screen left-0 top-0" @click="closeWarning"></div>
-    <div class="card-inner absolute text-xl max-w-xs md:max-w-md w-full z-50" v-if="isSelectMode">
+    <div class="card-inner absolute text-xl pop-container-choose w-full z-50" v-if="isSelectMode">
       <div class="bg rounded-3xl overflow-hidden shadow-lg w-full">
         <div class="px-4 py-6 flex flex-col justify-center w-full">
           <div class="font-bold text-lg mb-8 whitespace-nowrap text-center proj-text-primary">請選擇簽名</div>
@@ -15,17 +15,17 @@
               </a>
             </div>
           </div>
-          <a href="" class="proj-text-primary block mt-4 font-bold text-lg whitespace-nowrap" @click="isSelectMode = false">+ 新增簽名</a>
+          <a class="proj-text-primary block mt-4 font-bold text-lg whitespace-nowrap" @click="isSelectMode = false">+ 新增簽名</a>
         </div>
 
       </div>
     </div>
-    <div class="card-inner absolute text-xl max-w-xs md:max-w-md w-full z-50" v-if="!isSelectMode">
+    <div class="card-inner absolute text-xl w-full z-50 pop-container" v-if="!isSelectMode">
       <div class="bg rounded-3xl overflow-hidden shadow-lg w-full">
 
-        <div class="index_Sign flex flex-col items-center w-full py-4">
+        <div class="index_Sign flex flex-col items-center w-full py-4 px-2">
 
-          <div class="container-pop mx-auto mb-5">
+          <div class="container-pop mx-auto mb-5 text-base md:text-lg">
             <div class="inner-container">
               <div class="toggle" @click="isSignSelf = false">
                 <p>匯入簽名檔</p>
@@ -112,7 +112,9 @@ export default {
     }
 
     const backToChoose = (backToChoose) => {
-      isSelectMode.value = backToChoose
+      closeWarning()
+      console.log(backToChoose)
+      // isSelectMode.value = backToChoose
     }
 
     return {
@@ -205,5 +207,14 @@ export default {
 
 .selected-h {
   height: 18rem;
+}
+.pop-container-choose {
+  max-width: 343px;
+}
+.pop-container {
+  max-width: 600px;
+  @media (max-width: 768px) {
+    max-width: 343px;
+  }
 }
 </style>
