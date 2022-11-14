@@ -158,7 +158,7 @@ export default {
         })
       }
 
-      const printPDF = async(pdfData) => {
+      const printPDF = async(pdfData, index) => {
         pdfData = await readBlob(pdfData)
         localStorage.setItem("pdfData", JSON.stringify(pdfData))
 
@@ -166,7 +166,7 @@ export default {
 
         const pdfDoc = await pdfjsLib.getDocument({ data }).promise
 
-        const pdfPage = await pdfDoc.getPage(1)
+        const pdfPage = await pdfDoc.getPage(index ?? 1)
         pageCount.value = pdfDoc.numPages
 
         // const viewport = pdfPage.getViewport({ scale: window.devicePixelRatio })
@@ -197,9 +197,9 @@ export default {
 
       canvas = new fabric.Canvas('canvas')
 
-      const Init = async () => {
+      const Init = async (index) => {
         canvas.requestRenderAll()
-        const pdfData = await printPDF(file, 1)
+        const pdfData = await printPDF(file, index)
         const pdfImage = await pdfToImage(pdfData)
 
         // 調整canvas大小
@@ -209,7 +209,7 @@ export default {
         canvas.setHeight(pdfImage.height)
         canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
       }
-      Init()
+      Init(1)
       const queueRenderPage = (num) => {
         if (pageRendering.value) {
           pageNumPending.value = num
@@ -226,7 +226,7 @@ export default {
         const data = atob(JSON.parse(localStorage.getItem('pdfData')).substring(Base64Prefix.length))
 
         const pdfDoc = await pdfjsLib.getDocument({ data }).promise
-        pdfDoc.getPage(num).then((page) => {
+        pdfDoc.getPage(num.value).then((page) => {
           var viewport = page.getViewport({scale: scale})
           canvas.height = viewport.height
           canvas.width = viewport.width
@@ -322,7 +322,9 @@ export default {
           return
         }
         pageNum.value--
-        queueRenderPage(pageNum)
+        // queueRenderPage(pageNum)
+
+        Init(pageNum.value)
       }
       document.querySelector('.prePage-btn-top').addEventListener('click', prePage)
       document.querySelector('.prePage-btn').addEventListener('click', prePage)
@@ -333,18 +335,16 @@ export default {
           return
         }
         pageNum.value++
-        queueRenderPage(pageNum)
+        // queueRenderPage(pageNum)
+        Init(pageNum.value)
       }
       document.querySelector('.nextPage-btn-top').addEventListener('click', nextPage)
       document.querySelector('.nextPage-btn').addEventListener('click', nextPage)
 
       // 下載
       const pdf = new jsPDF()
-
       const downloadBtn = document.querySelectorAll(".downloadBtn")
-
       const download = () => {
-        // ctx.emit('finishSign', true)
         // 將 canvas 存為圖片
         const image = canvas.toDataURL("image/png")
 
