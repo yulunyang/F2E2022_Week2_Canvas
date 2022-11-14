@@ -63,7 +63,6 @@ export default {
       }
 
       const pdfToImage = async(pdfData) => {
-        console.log('pdfToImage')
         const scale = 1 / window.devicePixelRatio
         return new fabric.Image(pdfData, {
           scaleX: scale,
@@ -109,10 +108,6 @@ export default {
         const height = pdf.internal.pageSize.height
         pdf.addImage(image, 'png', 0, 0, width, height)
         pdf.save('download.pdf')
-
-        console.log(pdf)
-        console.log(canvas)
-        console.log('downloadPdf')
       })
     })
 

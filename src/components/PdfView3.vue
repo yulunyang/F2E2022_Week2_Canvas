@@ -122,6 +122,8 @@ export default {
     const pageNum = ref(1)
     const pageCount = ref(1)
     const width = ref(100)
+    const pageNumPending = ref(null)
+    const pageRendering = ref(false)
 
     const Base64Prefix = 'data:application/pdf;base64,'
     // const add = document.querySelector('.add')
@@ -160,13 +162,14 @@ export default {
 
       const printPDF = async(pdfData) => {
         pdfData = await readBlob(pdfData)
+        localStorage.setItem("pdfData", JSON.stringify(pdfData))
+
         const data = atob(pdfData.substring(Base64Prefix.length))
 
         const pdfDoc = await pdfjsLib.getDocument({ data }).promise
 
         const pdfPage = await pdfDoc.getPage(1)
         pageCount.value = pdfDoc.numPages
-        // console.log(pdfPage)
 
         // const viewport = pdfPage.getViewport({ scale: window.devicePixelRatio })
         const viewport = pdfPage.getViewport({ scale: 1 })
@@ -194,12 +197,11 @@ export default {
         })
       }
 
-      // const canvas = new fabric.Canvas('canvas')
       canvas = new fabric.Canvas('canvas')
 
       const Init = async () => {
         canvas.requestRenderAll()
-        const pdfData = await printPDF(file)
+        const pdfData = await printPDF(file, 1)
         const pdfImage = await pdfToImage(pdfData)
 
         // 調整canvas大小
@@ -210,6 +212,43 @@ export default {
         canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
       }
       Init()
+      const queueRenderPage = (num) => {
+        if (pageRendering.value) {
+          pageNumPending.value = num
+          console.log(num)
+        } else {
+          renderPage(num)
+        }
+      }
+      const renderPage = async(num) => {
+        console.log(num)
+
+        pageRendering.value = true
+
+        const data = atob(JSON.parse(localStorage.getItem('pdfData')).substring(Base64Prefix.length))
+
+        const pdfDoc = await pdfjsLib.getDocument({ data }).promise
+        pdfDoc.getPage(num).then((page) => {
+          var viewport = page.getViewport({scale: scale})
+          canvas.height = viewport.height
+          canvas.width = viewport.width
+
+          var renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+          }
+          var renderTask = page.render(renderContext)
+
+          renderTask.promise.then(() =>{
+            pageRendering.value = false
+            if (pageNumPending.value !== null) {
+
+              reRender(pageNumPending.value)
+              pageNumPending.value = null
+            }
+          })
+        })
+      }
 
       // 加入簽名
       const sign = document.querySelector('.signBtn')
@@ -285,7 +324,7 @@ export default {
           return
         }
         pageNum.value--
-        // queueRenderPage(pageNum)
+        queueRenderPage(pageNum)
       }
       document.querySelector('.prePage-btn-top').addEventListener('click', prePage)
       document.querySelector('.prePage-btn').addEventListener('click', prePage)
@@ -296,7 +335,7 @@ export default {
           return
         }
         pageNum.value++
-        // queueRenderPage(pageNum)
+        queueRenderPage(pageNum)
       }
       document.querySelector('.nextPage-btn-top').addEventListener('click', nextPage)
       document.querySelector('.nextPage-btn').addEventListener('click', nextPage)
@@ -332,8 +371,6 @@ export default {
     }
 
     const selectedSign = (selectedSign) => {
-      console.log(selectedSign)
-
       fabric.Image.fromURL(selectedSign, (image) => {
         image.top = 100
         image.left = 100
@@ -347,13 +384,11 @@ export default {
     const percentPlus = () => {
       if (width.value < 150) {
         width.value += 10
-        console.log(width.value)
       }
     }
     const percentMinus = () => {
       if (width.value > 50) {
         width.value -= 10
-        console.log(width.value)
       }
     }
 
@@ -367,7 +402,9 @@ export default {
       isSelectSign,
       pageNum,
       pageCount,
-      width
+      width,
+      pageRendering,
+      pageNumPending
     }
   }
 }

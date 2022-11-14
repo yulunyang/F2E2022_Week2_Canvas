@@ -87,17 +87,12 @@ export default {
     const selectedSign = (url) => {
       ctx.emit('selectedSign', url)
       closeWarning()
-      // console.log(url)
     }
 
     const delecteSign = (idx) => {
       let arr = JSON.parse(localStorage.getItem('vue-canvas-array'))
-      console.log(arr)
-      console.log(idx)
-      console.log(arr.length)
       if (arr.length > 1) {
         arr.splice(idx, 1)
-        console.log(arr)
         localStorage.setItem("vue-canvas-array", JSON.stringify(arr))
       } else {
         localStorage.removeItem('vue-canvas-array')
