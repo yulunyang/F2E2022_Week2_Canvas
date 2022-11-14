@@ -22,7 +22,7 @@
             <input id="upload" class="file-upload__input" type="file" name="file-upload" @change="checkFile($event)" >
           </div>
           <p class="drap mb-4">或拖移檔案到此處</p>
-          <p class="text-sm note">(限10MB 內的PDF或JPG檔)</p>
+          <p class="text-sm note">(限10MB 內的PDF)</p>
         </div>
       </div>
 
@@ -59,10 +59,13 @@ export default {
     })
     const checkFile = (e) => {
       const fileSize = e.target.files[0].size / 1024 / 1024
+      console.log(e.target.files[0].type)
 
       if (e.target.files[0].type.indexOf('pdf') > 0) {
         if (fileSize < 10) {
           bus.emit('fileUpload', e.target.files[0])
+          const reader = new FileReader()
+          console.log(reader.readAsDataURL(e.target.files[0]))
 
           ctx.emit('nextStep')
 
@@ -214,9 +217,9 @@ export default {
       }
     }
   }
-  @media (max-width: 375px) {
+  @media (max-width: 640px) {
     .peoples {
-      width: 375px;
+      width: 425px;
       left: 50%;
       bottom: 2em;
       transform: translateX(-50%);
